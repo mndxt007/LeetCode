@@ -52,7 +52,7 @@ public static class Solution
             int gasleft;
             int iteration = i;
             int gasrequired;
-            if (gas[i] > cost[i])
+            if (gas[i] >= cost[i])
             {
                 gasleft = gas[i];
                 while ((((++iteration) % gas.Length) != i))
@@ -85,7 +85,8 @@ Dictionary<int[], int[]> testcases = new()
     {new int[] {1,2,3,4,5},  new int[] {3,4,5,1,2}},
     {new int[] {2,3,4},  new int[] {3,4,3}},
     {new int[] {4,5,2,6,5,3},  new int[] {3,2,7,3,2,9}},
-    {new int[] {5,8,2,8},  new int[] {6,5,6,6}}
+    {new int[] {5,8,2,8},  new int[] {6,5,6,6}},
+    {new int[] {2}, new int[] {2}}
 }
 ;
 
