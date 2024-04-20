@@ -33,19 +33,23 @@ n == ratings.length
 
 using System.Reflection;
 
-public static class Solution {
-    public static int Candy(int[] ratings) {
+public static class Solution
+{
+    public static int Candy(int[] ratings)
+    {
         int total = ratings.Length;
-        for (int i = 1; i < ratings.Length -1; i++)
+        for (int i = 0; i < ratings.Length - 1; i++)
         {
-             if(ratings[i] != ratings[i-1]){
-                total++;
-            if (ratings[i] !=  ratings[i+1])
+            if (ratings[i + 1] > ratings[i])
             {
                 total++;
             }
-            }
         }
+        //edge coditions
+        if (ratings[0] > ratings[1])
+            total++;
+        if ((ratings[ratings.Length - 2] > ratings[ratings.Length - 1]))
+            total++;
         return total;
     }
 }
@@ -53,6 +57,7 @@ public static class Solution {
 List<int[]> testcases = new(){
 new int[] {1,0,2},
 new int[] {1,2,2},
+new int[] {1,3,2,2,1},
 };
 
 
