@@ -52,7 +52,7 @@ public static class Solution
             int gasleft;
             int iteration = i;
             int gasrequired;
-            if (gas[i] >= cost[i])
+            if ((gas[i] >= cost[i])&&gas[i]!=0)
             {
                 gasleft = gas[i];
                 while ((((++iteration) % gas.Length) != i))
