@@ -47,6 +47,7 @@ public static class Solution
 
      public static int CanCompleteCircuit(int[] gas, int[] cost)
     {
+        if(gas.Sum() < cost.Sum()) return -1;
         for (int i = 0; i < gas.Length; i++)
         {
             int gasleft;
@@ -65,7 +66,7 @@ public static class Solution
                     }
                     else
                     {
-                        gasleft = gasleft + gas[(iteration) % (gas.Length)] - gasrequired;
+                        gasleft = gasleft + gas[iteration % gas.Length] - gasrequired;
                     }
                 }
                 gasrequired = cost[(iteration - 1) % gas.Length];
