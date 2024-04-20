@@ -45,14 +45,14 @@ n == gas.length == cost.length
 public static class Solution
 {
 
-    public static int CanCompleteCircuit(int[] gas, int[] cost)
+     public static int CanCompleteCircuit(int[] gas, int[] cost)
     {
-         for (int i = 0; i < gas.Length; i++)
+        for (int i = 0; i < gas.Length; i++)
         {
-            int gasleft = 0;
+            int gasleft;
             int iteration = i;
-            int gasrequired = 0;
-            if (gas[((i + 1) % (gas.Length))] > cost[i])
+            int gasrequired;
+            if (gas[i] > cost[i])
             {
                 gasleft = gas[i];
                 while ((((++iteration) % gas.Length) != i))
@@ -91,7 +91,7 @@ Dictionary<int[], int[]> testcases = new()
 
 foreach (var (gas, cost) in testcases)
 {
-    Console.WriteLine($"Gas - {gas.ToString()} , costs - {cost.ToString} : Result - {Solution.CanCompleteCircuit(gas, cost)}");
+    Console.WriteLine($"Gas - {string.Join(", ", gas)} , costs - {string.Join(", ", gas)} : Result - {Solution.CanCompleteCircuit(gas, cost)}");
 }
 
 
