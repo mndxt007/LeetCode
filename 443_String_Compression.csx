@@ -36,7 +36,6 @@ Constraints:
 chars[i] is a lowercase English letter, uppercase English letter, digit, or symbol.
 */
 
-using System.Net.WebSockets;
 
 public static class Solution
 {
