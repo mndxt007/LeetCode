@@ -40,7 +40,7 @@ using System.Net.WebSockets;
 
 public static class Solution
 {
-    public static int Compress(char[] chars)
+    public static int Compress2(char[] chars)
     {
         Dictionary<char, int> dict = new();
         foreach (var items in chars)
@@ -63,8 +63,8 @@ public static class Solution
         {
             chars[i++] = key;
             if (value > 1 && value < 10)
-                chars[i++] = (char)(value  + '0');
-            else if(value > 10)
+                chars[i++] = (char)(value + '0');
+            else if (value > 10)
             {
                 valuestr = value.ToString();
                 foreach (char c in valuestr)
@@ -78,15 +78,66 @@ public static class Solution
         return i;
 
     }
+
+    public static int Compress(char[] chars)
+    {
+        if (chars.Length == 1) return 1;
+        int writecounter = 0;
+        int counter = 1;
+        string valuestr;
+        for (int i = 1; i < chars.Length; i++)
+        {
+            if (chars[i] == chars[i - 1])
+            {
+                counter++;
+            }
+            else
+            {
+                chars[writecounter++] = chars[i - 1];
+                if (counter > 1 && counter < 10)
+                    chars[writecounter++] = (char)(counter + '0');
+                else if (counter >= 10)
+                {
+                    valuestr = counter.ToString();
+                    foreach (char c in valuestr)
+                    {
+                        chars[writecounter++] = c;
+                    }
+                }
+
+                counter = 1;
+            }
+            if (i == chars.Length-1)
+            {
+                chars[writecounter++] = chars[i];
+                if (counter > 1 && counter < 10)
+                    chars[writecounter++] = (char)(counter + '0');
+                else if (counter >= 10)
+                {
+                    valuestr = counter.ToString();
+                    foreach (char c in valuestr)
+                    {
+                        chars[writecounter++] = c;
+                    }
+                }
+            }
+        }
+         Console.WriteLine($"Converted Char - {String.Join(' ', chars)}");
+        return writecounter;
+    }
 }
 
 
 List<char[]> testcases = new(){
-new char[] {'a','a','b','b','c','c','c'},
-new char[] {'a'},
-new char[] {'a','b','b','b','b','b','b','b','b','b','b','b','b'},
+// new char[] {'a','a','b','b','c','c','c'},
+// new char[] {'a'},
+// new char[] {'a','b','b','b','b','b','b','b','b','b','b','b','b'},
+// new char[] {'a','a','a','b','b','a','a'},
+// new char[] {'o','o','o','o','o','o','o','o','o','o'},
+new char[] {'w','w','w','w','w','b','b','g','g','g','g','a','a','a','i','i','i','i','y','y','p','v','v','v','u','u','u','y','y','y','y','y','y','y','y','y','s','q','q','q','q','q','q','q','q','q','q','n','n','n'}
 
 };
+
 // for (int i = 0; i < 300; i++)
 // {
 //     char val = (char)(i);
