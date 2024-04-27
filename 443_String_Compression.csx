@@ -121,7 +121,7 @@ public static class Solution
                 }
             }
         }
-         Console.WriteLine($"Converted Char - {String.Join(' ', chars)}");
+         Console.WriteLine($"Converted Char - {String.Join(' ', chars[..writecounter])}");
         return writecounter;
     }
 }
