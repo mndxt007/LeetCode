@@ -16,6 +16,7 @@ public static class Solution {
             {
                 return i;
             }
+            k=0;
         }
         return -1;
         
@@ -24,9 +25,10 @@ public static class Solution {
 
 Dictionary<string, string> testcases = new()
 {
-     {"sadbutsad",  "sad"},
-     {"leetcode",  "leeto"},
-    {"a", "a"}
+    //  {"sadbutsad",  "sad"},
+    //  {"leetcode",  "leeto"},
+    // {"a", "a"},
+    {"mississippi", "issip"}
 
 };
 
