@@ -48,13 +48,43 @@ public static class Solution
 {
     public static void Merge(int[] nums1, int m, int[] nums2, int n)
     {
-         List<int> merged = nums1[..m].ToList();
+        List<int> merged = nums1[..m].ToList();
         merged.AddRange(nums2);
         merged.Sort();
         for (int i = 0; i < merged.Count; i++)
         {
-            nums1[i]=merged[i];
-        } 
+            nums1[i] = merged[i];
+        }
+        Console.WriteLine($"Result : {String.Join(' ', nums1)}");
+
+
+    }
+
+    public static void Merge2(int[] nums1, int m, int[] nums2, int n)
+    {
+        int i = 0, j = 0, k = 0;
+        int[] nums3 = nums1[..m];
+        while (i < m && j < n)
+        {
+            if (nums3[i] <= nums2[j])
+            {
+                nums1[k++] = nums3[i++];
+            }
+            else
+            {
+                 nums1[k++] = nums2[j++];
+            }
+        }
+        while(i<m)
+        {
+            nums1[k++] = nums3[i++];
+        }
+        while(j<n)
+        {
+             nums1[k++] = nums2[j++];
+        }
+
+        //implement merge sort here;
         Console.WriteLine($"Result : {String.Join(' ', nums1)}");
 
 
@@ -65,7 +95,8 @@ public static class Solution
 
 }
 
-public class TestCases(){
+public class TestCases()
+{
     public int[] nums1;
     public int m;
     public int[] nums2;
@@ -101,7 +132,7 @@ List<TestCases> testcases = new(){
 
 foreach (var testcase in testcases)
 {
-    Console.WriteLine($"nums1 - {string.Join(", ", testcase.nums1)} , costs - {string.Join(", ", testcase.nums2)}");
-    Solution.Merge(testcase.nums1,testcase.m,testcase.nums2, testcase.n);
+    Console.WriteLine($"nums1 - {string.Join(", ", testcase.nums1)} , nums2 - {string.Join(", ", testcase.nums2)}");
+    Solution.Merge2(testcase.nums1, testcase.m, testcase.nums2, testcase.n);
 }
 
