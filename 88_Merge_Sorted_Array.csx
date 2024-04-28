@@ -48,25 +48,8 @@ public static class Solution
 {
     public static void Merge(int[] nums1, int m, int[] nums2, int n)
     {
-        // List<int> merged = nums1.ToList();
-        // merged.AddRange(nums2);
-        // int writeindex=0;
-        // for (int i = 1; i < (m+n); i++)
-        // {
-        //     if(merged[i]==0 && merged[i-1]>0){
-        //         merged.RemoveAt(i--);
-        //     }
-        // }
-        // merged.Sort();
-        // for (int i = 0; i < nums1.Length; i++)
-        // {
-        //     nums1[i]=merged[i];
-        // }
-         List<int> merged = nums1.ToList();
+         List<int> merged = nums1[..m].ToList();
         merged.AddRange(nums2);
-        merged.RemoveAll(
-           x => x==0
-        );
         merged.Sort();
         for (int i = 0; i < merged.Count; i++)
         {
@@ -82,16 +65,43 @@ public static class Solution
 
 }
 
-Dictionary<int[], int[]> testcases = new(){
-    { new int[] {1,2,3,0,0,0}, new int [] {2,5,6}},
-    { new int[] {1}, new int[0] },
-    { new int[1], new[] {1}},
-     { new int[] {-1,0,0,3,3,3,0,0,0}, new int [] {1,2,2}},
+public class TestCases(){
+    public int[] nums1;
+    public int m;
+    public int[] nums2;
+    public int n;
+}
+
+List<TestCases> testcases = new(){
+    new TestCases(){
+        nums1 =[1,2,3,0,0,0],
+        m =3,
+        nums2 = [2,5,6],
+        n = 3
+    },
+    new TestCases(){
+        nums1 =[1],
+        m =1,
+        nums2 = new int[0],
+        n = 0
+    },
+    new TestCases(){
+        nums1 =[0],
+        m =0,
+        nums2 = [1],
+        n = 1
+    },
+    new TestCases(){
+        nums1 =[-1,0,0,3,3,3,0,0,0],
+        m =6,
+        nums2 = [1,2,2],
+        n = 3
+    },
 };
 
-foreach (var (nums1, nums2) in testcases)
+foreach (var testcase in testcases)
 {
-    Console.WriteLine($"nums1 - {string.Join(", ", nums1)} , costs - {string.Join(", ", nums2)}");
-    Solution.Merge(nums1, nums1.Length, nums2, nums2.Length);
+    Console.WriteLine($"nums1 - {string.Join(", ", testcase.nums1)} , costs - {string.Join(", ", testcase.nums2)}");
+    Solution.Merge(testcase.nums1,testcase.m,testcase.nums2, testcase.n);
 }
 
