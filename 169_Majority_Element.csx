@@ -43,6 +43,8 @@ public static class Solution {
             {
                 return nums[i];
             }
+            else
+                break;
         }
         return 0;
     }
