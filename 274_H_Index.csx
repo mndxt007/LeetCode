@@ -25,45 +25,53 @@ n == citations.length
 1 <= n <= 5000
 0 <= citations[i] <= 1000
 */
-public static class Solution {
-    public static int HIndex(int[] citations) {
+public static class Solution
+{
+    public static int HIndex(int[] citations)
+    {
 
         //seems like a LINQ problem
 
         // step1 sort the array and iterate through the array in the reverse order (sort reverse array to cost some CPU :))
         int len = citations.Length;
-        if(len==1) 
-            return citations[0] > 0 ? 1: 0;
+        if (len == 1)
+            return citations[0] > 0 ? 1 : 0;
         Array.Sort(citations);
         int count = 0;
-        for(int i=len-1; i>=0 ; i--)
+        for (int i = len - 1; i >= 0; i--)
         {
             //calculate count of citations >= current citation.
             //see if the count of citations >= current citation.
-            
-            //lets go LINQ (with CPU overhead :))
 
-            count = citations.Where(
-                g => g>=citations[i]
-            ).Count();
-            if (count >= citations[i])
+            //lets go LINQ (with CPU overhead :))
+            if (citations[i] != 0)
             {
-                return citations[i];
+                count = citations.Where(
+                    g => g >= citations[i]
+                ).Count();
+                if (count >= citations[i])
+                {
+                    return citations[i];
+                }
             }
 
         }
 
-        return len;
+        return count = citations.Where(
+                g => g > 0
+            ).Count();
     }
 }
 
 
 List<int[]> testcases = [
     [3,0,6,1,5],
-    [1,3,1]
+    [1,3,1],
+    [4,4,0,0],
+    [1,7,9,4]
 ];
 
 foreach (var _case in testcases)
 {
-    Console.WriteLine($"Test case - {String.Join(' ',_case)}, Result - {Solution.HIndex(_case)}");
+    Console.WriteLine($"Test case - {String.Join(' ', _case)}, Result - {Solution.HIndex(_case)}");
 }
