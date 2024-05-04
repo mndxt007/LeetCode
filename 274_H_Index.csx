@@ -32,6 +32,8 @@ public static class Solution {
 
         // step1 sort the array and iterate through the array in the reverse order (sort reverse array to cost some CPU :))
         int len = citations.Length;
+        if(len==1) 
+            return citations[0] > 0 ? 1: 0;
         Array.Sort(citations);
         int count = 0;
         for(int i=len-1; i>=0 ; i--)
