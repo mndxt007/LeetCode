@@ -39,6 +39,8 @@ public static class Solution {
             {
                 match = i;
             }
+            else
+                break;
         }
 
         //step 2 - use LINQ slice the string and find out the prefix present in all words.
