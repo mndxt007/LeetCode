@@ -37,6 +37,7 @@ public static class Solution {
         int maxindex = nums.Length;
         int numrotate = k%maxindex;
         int rotateindex = 0;
+        int tmp;
         // attempting with extra space
         int[] numscpy = new int[maxindex];
         nums.CopyTo(numscpy,0);
@@ -45,7 +46,8 @@ public static class Solution {
             rotateindex = (i-numrotate < 0) ? (i-numrotate+maxindex): i-numrotate;
             nums[i]= numscpy[rotateindex];
         }
-        Console.WriteLine($"Nums -  {String.Join(' ',nums)}");
+        //without exta space;
+        Console.WriteLine($"Nums Rotated - {String.Join(' ',nums)}");
     }
 }
 
@@ -60,3 +62,16 @@ foreach(var (nums,k) in testcases)
     Console.WriteLine($"Nums - {String.Join(' ',nums)}, k - {k} ");
     Solution.Rotate(nums,k);
 }
+
+/*
+Play ground
+ k =3 
+[1 2 3 4 5 6 7] [5,6,7,1,2,3,4]
+[7 6 5 4 3 2 1]
+
+k =2 
+[1 2 3 4 5 6 7] [6,7,1,2,3,4,5]
+[1 7 3 4 5 6 2]
+[6 7 3 4 5 1 2]
+
+*/
