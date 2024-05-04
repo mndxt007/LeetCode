@@ -27,7 +27,7 @@ n == citations.length
 */
 public static class Solution
 {
-    public static int HIndex(int[] citations)
+    public static int HIndex_(int[] citations)
     {
 
         //seems like a LINQ problem
@@ -61,6 +61,39 @@ public static class Solution
                 g => g > 0
             ).Count();
     }
+
+    //logic change
+    public static int HIndex(int[] citations)
+    {
+
+        //seems like a LINQ problem
+
+        // step1 start from length of the arrat iterate upto 1
+        int max = citations.Max();
+        int len = citations.Length;
+        if (len == 1)
+            return citations[0] > 0 ? 1 : 0;
+        int count = 0;
+        for (int i = len; i >= 1; i--)
+        {
+            //calculate count of citations >= current citation.
+            //see if the count of citations >= current citation.
+
+            //lets go LINQ (with CPU overhead :))
+                count = citations.Where(
+                    g => g >= i
+                ).Count();
+                if (count >= i)
+                {
+                    return i;
+                }
+
+        }
+
+        return count = citations.Where(
+                g => g > 0
+            ).Count();
+    }
 }
 
 
@@ -68,7 +101,7 @@ List<int[]> testcases = [
     [3,0,6,1,5],
     [1,3,1],
     [4,4,0,0],
-    [1,7,9,4]
+    [1,7,9,4] //The result is not necessarily part of the array i.e 3
 ];
 
 foreach (var _case in testcases)
