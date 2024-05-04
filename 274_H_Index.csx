@@ -53,8 +53,7 @@ public static class Solution {
 
         }
 
-
-        return 0;
+        return len;
     }
 }
 
