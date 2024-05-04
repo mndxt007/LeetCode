@@ -51,10 +51,10 @@ public static class Solution {
 }
 
 
-List<int[]> testcases = new(){
-    new int[] {3,2,3},
-    new int[] {2,2,1,1,1,2,2}
-};
+List<int[]> testcases = [
+    [3,2,3],
+    [2,2,1,1,1,2,2]
+];
 
 foreach (var item in testcases)
 {

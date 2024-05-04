@@ -37,7 +37,6 @@ public static class Solution {
         int maxindex = nums.Length;
         int numrotate = k%maxindex;
         int rotateindex = 0;
-        int tmp;
         // attempting with extra space
         int[] numscpy = new int[maxindex];
         nums.CopyTo(numscpy,0);
