@@ -27,7 +27,7 @@ n == citations.length
 */
 public static class Solution
 {
-    public static int HIndex_(int[] citations)
+    public static int HIndex1(int[] citations)
     {
 
         //seems like a LINQ problem
@@ -66,10 +66,8 @@ public static class Solution
     public static int HIndex(int[] citations)
     {
 
-        //seems like a LINQ problem
 
         // step1 start from length of the arrat iterate upto 1
-        int max = citations.Max();
         int len = citations.Length;
         if (len == 1)
             return citations[0] > 0 ? 1 : 0;
@@ -80,20 +78,22 @@ public static class Solution
             //see if the count of citations >= current citation.
 
             //lets go LINQ (with CPU overhead :))
-                count = citations.Where(
-                    g => g >= i
-                ).Count();
-                if (count >= i)
-                {
-                    return i;
-                }
+            count = citations.Count(
+                g => g >= i
+            );
+            if (count >= i)
+            {
+                return i;
+            }
 
         }
 
-        return count = citations.Where(
-                g => g > 0
-            ).Count();
+        return count = citations.Count(
+            g => g > 0
+        );
     }
+
+
 }
 
 
