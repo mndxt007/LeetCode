@@ -34,7 +34,8 @@ public static class Solution
         int count = 0;
         //edge condition
         int l = flowerbed.Length;
-
+        if (n < 1)
+            return true;
         if (l == 1)
         {
             if (flowerbed[0] == 0)
@@ -52,12 +53,16 @@ public static class Solution
             flowerbed[0] = 1;
         }
         //checking if the flower can be placed between 0th and nth index:
-        for (int i = 1; i < l - 2; i++)
+        for (int i = 1; i < l - 1; i++)
         {
-            if ((flowerbed[i - 1], flowerbed[i]) == (0, 0))
+            if ((flowerbed[i - 1], flowerbed[i + 1]) == (0, 0))
             {
-                count++;
-                flowerbed[i] = 1;
+                if (flowerbed[i] == 0)
+                {
+                    count++;
+                    flowerbed[i] = 1;
+                }
+
             }
 
         }
@@ -80,7 +85,8 @@ Dictionary<int[], int> testcases = new(){
     {new int[] {1,0,0,0,1},1},
     {new int[] {1,0,0,0,1},2},
     {new int[] {0,0},1},
-    {new int[] {1,0,0,0,0,1},2}
+    {new int[] {1,0,0,0,0,1},2},
+    {new int[] {1,0,1,0,0,1,0},1}
 };
 
 foreach (var (flowerbed, n) in testcases)
