@@ -33,14 +33,22 @@ words[i] and s consist of only lowercase English letters.
 
 public static class Solution {
     public static bool IsPrefixString(string s, string[] words) {
-        for(int i=1;i<=words.Length;i++)
+        StringBuilder sb = new();
+        for(int i=0;i<words.Length;i++)
         {
-            if(words[..i].(s))
+            sb.Append(words[i]);
+            if(sb.Length>s.Length)
+                return false;
+            if(sb.ToString()==s[..sb.Length])
             {
-                return true;
+                if(sb.Length==s.Length)
+                    return true;
+                continue;
             }
+            else
+                return false;
         }
-        return false;
+        return false; 
     }
 }
 
