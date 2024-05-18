@@ -35,7 +35,7 @@ public static class Solution {
     public static bool IsPrefixString(string s, string[] words) {
         for(int i=1;i<=words.Length;i++)
         {
-            if(s==String.Concat(words[..i]))
+            if(words[..i].(s))
             {
                 return true;
             }
