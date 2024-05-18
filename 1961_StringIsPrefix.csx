@@ -33,10 +33,9 @@ words[i] and s consist of only lowercase English letters.
 
 public static class Solution {
     public static bool IsPrefixString(string s, string[] words) {
-        StringBuilder sb = new();
-        for(int i=0;i<words.Length;i++)
+        for(int i=1;i<=words.Length;i++)
         {
-            if(sb.Append(words[i]).ToString()==s)
+            if(s==String.Concat(words[..i]))
             {
                 return true;
             }
@@ -49,6 +48,7 @@ Dictionary<string[],string> testcases = new()
 {
     {new string[] {"i","love","leetcode","apples"}, "iloveleetcode"},
     {new string[] {"apples","i","love","leetcode"}, "iloveleetcode"},
+    {new string[] {"z"}, "z"}
 };
 
 foreach(var (words,s) in testcases)
