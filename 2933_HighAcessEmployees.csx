@@ -98,16 +98,26 @@ public static class Solution
 
         foreach(var emp in highaccess)
         {
-           var punchList = emp.Select( list => list[1]).SelectWithPrevious(
-            (prev,curr) =>  (TimeOnly)curr-(TimeOnly)prev
-           );
-            var count = punchList.Count(
-                    diff2 => diff2 <= oneHour
-                );
-            if(count >=2)
-            {
-                result.Add(emp.Key.ToString());
-            }
+           var punchList = emp.Select( list => (TimeOnly)list[1]).ToList<TimeOnly>();
+           int i=0;
+           int j=punchList.Count-1;
+           // fails to regonize d
+           // Test Case - d-0002,c-0808,c-0829,e-0215,d-1508,d-1444,d-1410,c-0809
+           while(j>i)
+           {
+             if((punchList[j]-punchList[i])<oneHour)
+             {
+                i++;
+             }
+             else
+             {
+                j--;
+             }
+           }
+           if(i>=2)
+           {
+            result.Add(emp.Key.ToString());
+           }
 
         }
 
@@ -181,6 +191,17 @@ List<IList<IList<string>>> testcases = new List<IList<IList<string>>>
         new List<string> {"va", "0509"},
         new List<string> {"r", "0515"},
         new List<string> {"r", "0414"}
+    },
+    new List<IList<string>>
+    {
+        new List<string> {"eazbkekis", "1034"},
+        new List<string> {"relf", "1126"},
+        new List<string> {"afwpabwyds", "1114"},
+        new List<string> {"afwpabwyds", "1105"},
+        new List<string> {"relf", "1031"},
+        new List<string> {"afwpabwyds", "1010"},
+        new List<string> {"vzqpz", "1047"},
+        new List<string> {"relf", "1103"}
     }
 };
 
