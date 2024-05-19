@@ -51,56 +51,78 @@ access_times[i][1] consists only of '0' to '9'.
 
 using System.Collections;
 
-
-public static class Solution {
-    public static IList<string> FindHighAccessEmployees(IList<IList<string>> access_times) {
-        //lets go LINQ and memory consumptions
-        // var highaccess = access_times.Select(
-        //     list => new ArrayList
-        //         {
-        //             list[0],new TimeOnly(Convert.ToInt32(list[1][..2]),Convert.ToInt32(list[1][2..4]))
-        //         }
-        // );
-        // Ok scraping linq
-        var orderedaccess = access_times.OrderBy(list => (list[0],list[1]));
-        var firstpunch = orderedaccess.First();
-        string prevEmp = firstpunch[0];
-        string emp = "";
-        int count = 0;
-        List<string> result = new();
-        TimeOnly prevTime = new TimeOnly(Convert.ToInt32(firstpunch[1][..2]),Convert.ToInt32(firstpunch[1][2..4])) ;
-        TimeOnly currTime = new TimeOnly(0,0,0);
-        TimeSpan oneHour = new TimeSpan(1,0,0);
-        foreach(var accesspunch in orderedaccess.Skip(1))
+public static IEnumerable<TResult> SelectWithPrevious<TSource, TResult>
+    (this IEnumerable<TSource> source,
+     Func<TSource, TSource, TResult> projection)
+{
+    using (var iterator = source.GetEnumerator())
+    {
+        if (!iterator.MoveNext())
         {
-            emp = accesspunch[0];
-            currTime = new TimeOnly(Convert.ToInt32(accesspunch[1][..2]),Convert.ToInt32(accesspunch[1][2..4]));
-            if(emp==prevEmp)
-            {
-                if(currTime - prevTime < oneHour)
-                {
-                    count++;
-                    if (count>=2)
-                    {
-                        result.Add(emp);
-                    }
-                }
-                else
-                {
-                    prevTime = currTime;
-                    count = 0;
-                }
-            }
-            else
-            {
-                count=0;
-                prevEmp = emp;
-                prevTime = currTime;
-            }
-            
+             yield break;
         }
-        //very costly but should work
-        return result.Distinct().ToList<string>();
+        TSource previous = iterator.Current;
+        while (iterator.MoveNext())
+        {
+            yield return projection(previous, iterator.Current);
+            previous = iterator.Current;
+        }
+    }
+}
+public static class Solution
+{
+
+    public static IList<string> FindHighAccessEmployees(IList<IList<string>> access_times)
+    {
+        //lets go LINQ and memory consumptions
+         /*
+        back to linq, below test case broke previous my algorithm:
+
+        Input
+         access_times =
+             [["wjmqm","0442"],["wjmqm","0504"],["r","0525"],["va","0436"],["r","0440"],["va","0505"],["va","0509"],["r","0515"],["r","0414"]]
+             Output
+             ["va"]
+             Expected
+             ["va","r"]
+
+     */
+     List<string> result = new();
+      TimeSpan oneHour = new TimeSpan(1,0,0);
+        var highaccess = access_times.OrderBy(list => (list[0], list[1])).Select(
+            (list) => new ArrayList
+                {
+                    list[0],new TimeOnly(Convert.ToInt32(list[1][..2]),Convert.ToInt32(list[1][2..4]))
+                }
+        ).GroupBy(list => list[0]);
+
+        foreach(var emp in highaccess)
+        {
+           var punchList = emp.Select( list => list[1]).SelectWithPrevious(
+            (prev,curr) =>  (TimeOnly)curr-(TimeOnly)prev
+           );
+            var count = punchList.Count(
+                    diff2 => diff2 <= oneHour
+                );
+            if(count >=2)
+            {
+                result.Add(emp.Key.ToString());
+            }
+
+        }
+
+    /*attempting agg
+           string sentence = "the quick brown fox jumps over the lazy dog";
+
+           // Split the string into individual words.
+           string[] words = sentence.Split(' ');
+
+           // Prepend each word to the beginning of the
+           // new sentence to reverse the word order.
+           string reversed = words.Aggregate((workingSentence, next) =>
+                                                 next + " " + workingSentence);
+   */
+        return result;
     }
 }
 
@@ -147,11 +169,23 @@ List<IList<IList<string>>> testcases = new List<IList<IList<string>>>
         new List<string> {"puqlqbde", "1922"},
         new List<string> {"tcvjyciwb", "1959"},
         new List<string> {"jilsfmdd", "1915"}
+    },
+     new List<IList<string>>
+    {
+        new List<string> {"wjmqm", "0442"},
+        new List<string> {"wjmqm", "0504"},
+        new List<string> {"r", "0525"},
+        new List<string> {"va", "0436"},
+        new List<string> {"r", "0440"},
+        new List<string> {"va", "0505"},
+        new List<string> {"va", "0509"},
+        new List<string> {"r", "0515"},
+        new List<string> {"r", "0414"}
     }
 };
 
 foreach (var case_ in testcases)
 {
     Console.WriteLine($"Test Case - {string.Join(',', case_.Select(innerList => string.Join("-", innerList)))}");
-    Console.WriteLine($"Resutl - {String.Join(",",Solution.FindHighAccessEmployees(case_))}");
+    Console.WriteLine($"Resutl - {String.Join(",", Solution.FindHighAccessEmployees(case_))}");
 }
