@@ -51,44 +51,13 @@ access_times[i][1] consists only of '0' to '9'.
 
 using System.Collections;
 
-public static IEnumerable<TResult> SelectWithPrevious<TSource, TResult>
-    (this IEnumerable<TSource> source,
-     Func<TSource, TSource, TResult> projection)
-{
-    using (var iterator = source.GetEnumerator())
-    {
-        if (!iterator.MoveNext())
-        {
-             yield break;
-        }
-        TSource previous = iterator.Current;
-        while (iterator.MoveNext())
-        {
-            yield return projection(previous, iterator.Current);
-            previous = iterator.Current;
-        }
-    }
-}
 public static class Solution
 {
 
     public static IList<string> FindHighAccessEmployees(IList<IList<string>> access_times)
     {
-        //lets go LINQ and memory consumptions
-         /*
-        back to linq, below test case broke previous my algorithm:
-
-        Input
-         access_times =
-             [["wjmqm","0442"],["wjmqm","0504"],["r","0525"],["va","0436"],["r","0440"],["va","0505"],["va","0509"],["r","0515"],["r","0414"]]
-             Output
-             ["va"]
-             Expected
-             ["va","r"]
-
-     */
-     List<string> result = new();
-      TimeSpan oneHour = new TimeSpan(1,0,0);
+        List<string> result = new();
+        TimeSpan oneHour = new TimeSpan(1, 0, 0);
         var highaccess = access_times.OrderBy(list => (list[0], list[1])).Select(
             (list) => new ArrayList
                 {
@@ -96,42 +65,27 @@ public static class Solution
                 }
         ).GroupBy(list => list[0]);
 
-        foreach(var emp in highaccess)
+        foreach (var emp in highaccess)
         {
-           var punchList = emp.Select( list => (TimeOnly)list[1]).ToList<TimeOnly>();
-           int i=0;
-           int j=punchList.Count-1;
-           // fails to regonize d
-           // Test Case - d-0002,c-0808,c-0829,e-0215,d-1508,d-1444,d-1410,c-0809
-           while(j>i)
-           {
-             if((punchList[j]-punchList[i])<oneHour)
-             {
-                i++;
-             }
-             else
-             {
-                j--;
-             }
-           }
-           if(i>=2)
-           {
-            result.Add(emp.Key.ToString());
-           }
+            var punchList = emp.Select(list => (TimeOnly)list[1]).ToList<TimeOnly>();
+            int i = 0;
+            int j = punchList.Count - 1;
+            // fails to regonize d
+            // Test Case - d-0002,c-0808,c-0829,e-0215,d-1508,d-1444,d-1410,c-0809
+                while (j - i >= 2)
+                {
+                    if ((punchList[j] - punchList[i]) <= oneHour)
+                    {
+                            result.Add(emp.Key.ToString());
+                            break;
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
 
         }
-
-    /*attempting agg
-           string sentence = "the quick brown fox jumps over the lazy dog";
-
-           // Split the string into individual words.
-           string[] words = sentence.Split(' ');
-
-           // Prepend each word to the beginning of the
-           // new sentence to reverse the word order.
-           string reversed = words.Aggregate((workingSentence, next) =>
-                                                 next + " " + workingSentence);
-   */
         return result;
     }
 }
@@ -202,6 +156,18 @@ List<IList<IList<string>>> testcases = new List<IList<IList<string>>>
         new List<string> {"afwpabwyds", "1010"},
         new List<string> {"vzqpz", "1047"},
         new List<string> {"relf", "1103"}
+    },
+    new List<IList<string>>
+    {
+        new List<string> {"uixav", "0510"},
+        new List<string> {"zbggqxck", "0545"},
+        new List<string> {"hyxoa", "0619"},
+        new List<string> {"uixav", "0517"},
+        new List<string> {"zbggqxck", "0609"},
+        new List<string> {"zbggqxck", "0527"},
+        new List<string> {"zkjxcrd", "0545"},
+        new List<string> {"uixav", "0617"},
+        new List<string> {"uixav", "0530"}
     }
 };
 
