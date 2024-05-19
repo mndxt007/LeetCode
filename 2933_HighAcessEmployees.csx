@@ -72,7 +72,8 @@ public static class Solution
             int j = punchList.Count - 1;
             bool added = false;
             // fails to regonize d
-            // Test Case - d-0002,c-0808,c-0829,e-0215,d-1508,d-1444,d-1410,c-0809
+            // Test Case 
+            // [["lhf","0214"],["bizcfqfd","0301"],["knxlnz","0053"],["vq","0221"],["caajl","0253"],["zu","0213"],["zu","0036"],["hxpjerp","0033"],["zu","0100"],["zu","0256"],["caajl","0140"],["ujftun","0112"],["knxlnz","0209"],["hxpjerp","0201"],["lhf","0242"],["zu","0143"],["zu","0151"]]
             while (j - i >= 2)
             {
                 if ((punchList[j] - punchList[i]) < oneHour)
