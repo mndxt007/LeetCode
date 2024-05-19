@@ -68,45 +68,15 @@ public static class Solution
         foreach (var emp in highaccess)
         {
             var punchList = emp.Select(list => (TimeOnly)list[1]).ToList<TimeOnly>();
-            int i = 0;
-            int j = punchList.Count - 1;
-            bool added = false;
-            // fails to regonize d
-            // Test Case 
-            // [["lhf","0214"],["bizcfqfd","0301"],["knxlnz","0053"],["vq","0221"],["caajl","0253"],["zu","0213"],["zu","0036"],["hxpjerp","0033"],["zu","0100"],["zu","0256"],["caajl","0140"],["ujftun","0112"],["knxlnz","0209"],["hxpjerp","0201"],["lhf","0242"],["zu","0143"],["zu","0151"]]
-            while (j - i >= 2)
+            for(int i=0;i<=(punchList.Count-3);i++)
             {
-                if ((punchList[j] - punchList[i]) < oneHour)
+                if(punchList[i+2]-punchList[i]<oneHour)
                 {
                     result.Add(emp.Key.ToString());
-                    added = true;
                     break;
                 }
-                else
-                {
-                    i++;
-                }
             }
-            if (!added)
-            {
-                i = 0;
-                j = punchList.Count - 1;
-                while (j - i >= 2)
-                {
-                    if ((punchList[j] - punchList[i]) < oneHour)
-                    {
-                        result.Add(emp.Key.ToString());
-                        break;
-                    }
-                    else
-                    {
-                        j--;
-                    }
-                }
-
-            }
-
-        }
+        }  
         return result;
     }
 }
