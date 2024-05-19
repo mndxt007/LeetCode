@@ -98,8 +98,8 @@ public static class Solution {
             }
             
         }
-
-        return result;
+        //very costly but should work
+        return result.Distinct().ToList<string>();
     }
 }
 
@@ -132,6 +132,20 @@ List<IList<IList<string>>> testcases = new List<IList<IList<string>>>
         new List<string> {"cd", "1055"},
         new List<string> {"ab", "1124"},
         new List<string> {"ab", "1120"}
+    },
+      new List<IList<string>>
+    {
+        new List<string> {"jilsfmdd", "2020"},
+        new List<string> {"tcvjyciwb", "2004"},
+        new List<string> {"puqlqbde", "1928"},
+        new List<string> {"tcvjyciwb", "2016"},
+        new List<string> {"puqlqbde", "1939"},
+        new List<string> {"puqlqbde", "1903"},
+        new List<string> {"jilsfmdd", "2021"},
+        new List<string> {"jilsfmdd", "1916"},
+        new List<string> {"puqlqbde", "1922"},
+        new List<string> {"tcvjyciwb", "1959"},
+        new List<string> {"jilsfmdd", "1915"}
     }
 };
 
