@@ -70,20 +70,40 @@ public static class Solution
             var punchList = emp.Select(list => (TimeOnly)list[1]).ToList<TimeOnly>();
             int i = 0;
             int j = punchList.Count - 1;
+            bool added = false;
             // fails to regonize d
             // Test Case - d-0002,c-0808,c-0829,e-0215,d-1508,d-1444,d-1410,c-0809
+            while (j - i >= 2)
+            {
+                if ((punchList[j] - punchList[i]) < oneHour)
+                {
+                    result.Add(emp.Key.ToString());
+                    added = true;
+                    break;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            if (!added)
+            {
+                i = 0;
+                j = punchList.Count - 1;
                 while (j - i >= 2)
                 {
-                    if ((punchList[j] - punchList[i]) <= oneHour)
+                    if ((punchList[j] - punchList[i]) < oneHour)
                     {
-                            result.Add(emp.Key.ToString());
-                            break;
+                        result.Add(emp.Key.ToString());
+                        break;
                     }
                     else
                     {
-                        i++;
+                        j--;
                     }
                 }
+
+            }
 
         }
         return result;
@@ -168,6 +188,18 @@ List<IList<IList<string>>> testcases = new List<IList<IList<string>>>
         new List<string> {"zkjxcrd", "0545"},
         new List<string> {"uixav", "0617"},
         new List<string> {"uixav", "0530"}
+    },
+    new List<IList<string>>
+    {
+        new List<string> {"qzgyyji", "1945"},
+        new List<string> {"qzgyyji", "1855"},
+        new List<string> {"jsxkxtugi", "1859"},
+        new List<string> {"hhjuaxal", "1940"},
+        new List<string> {"hhjuaxal", "1831"},
+        new List<string> {"jsxkxtugi", "1841"},
+        new List<string> {"hhjuaxal", "1918"},
+        new List<string> {"jsxkxtugi", "1941"},
+        new List<string> {"hhjuaxal", "1852"}
     }
 };
 
