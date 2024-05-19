@@ -88,6 +88,7 @@ public static class Solution {
                 else
                 {
                     prevTime = currTime;
+                    count = 0;
                 }
             }
             else
