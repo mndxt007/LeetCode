@@ -55,22 +55,27 @@ Constraints:
 1 <= instructions[i] <= 105
 */
 
-public static class Solution{
+public static class Solution
+{
     public static int CreateSortedArray(int[] instructions)
     {
         //ok lets go LINQ:
         int total = 0;
         int countgreater = 0;
         int countless = 0;
-        for(int i=1; i<instructions.Length ; i++ )
+        for (int i = 1; i < instructions.Length; i++)
         {
-            countgreater = instructions[..i].Count(
-                x => x > instructions[i]
-            );
-            countless = instructions[..i].Count(
-                x => x < instructions[i]
-            );
-            total += Math.Min(countgreater,countless);
+            if (instructions[i] != instructions[i - 1])
+            {
+                countgreater = instructions[..i].Count(
+               x => x > instructions[i]
+           );
+                countless = instructions[..i].Count(
+                    x => x < instructions[i]
+                );
+                total += Math.Min(countgreater, countless);
+            }
+
         }
 
         return total;
@@ -86,7 +91,7 @@ List<int[]> testcases = new()
 
 foreach (int[] case_ in testcases)
 {
-    Console.WriteLine($"Test Case - {String.Join(',',case_)}");
+    Console.WriteLine($"Test Case - {String.Join(',', case_)}");
     Console.WriteLine($"Total Cost - {Solution.CreateSortedArray(case_)}");
 
 }
