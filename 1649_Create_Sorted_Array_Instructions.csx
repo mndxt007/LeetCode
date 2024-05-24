@@ -65,6 +65,8 @@ public static class Solution
         int countless = 0;
         int min = instructions.Min();
         int max = instructions.Max();
+        int prev = instructions[0];
+        int prevcount = 0;
         for (int i = 1; i < instructions.Length; i++)
         {
             //we don't really have to calculate when it's either min or max because cost will be zero.
@@ -74,13 +76,25 @@ public static class Solution
                 //Not really efficient where there is a repeating pattern [1,2,3,1,2,3,1,2,3]
                 if (instructions[i] != instructions[i - 1])
                 {
-                    countgreater = instructions[..i].Count(
-                   x => x > instructions[i]
-               );
-                    countless = instructions[..i].Count(
-                        x => x < instructions[i]
-                    );
-                    total += Math.Min(countgreater, countless);
+                    //some more intelligence to get away from that nasty test case [1,2,3,1,2,3,1,2,3]
+                    // basically the total was 1+2+3+4+5+6............
+                    if (instructions[i] == prev)
+                    {
+                        prevcount++;
+                        total+=prevcount;
+                    }
+                    else
+                    {
+                        prevcount=0;
+                        countgreater = instructions[..i].Count(
+                       x => x > instructions[i]
+                         );
+                        countless = instructions[..i].Count(
+                            x => x < instructions[i]
+                        );
+                        total += Math.Min(countgreater, countless);
+                    }
+                    prev = instructions[i];
                 }
             }
 
