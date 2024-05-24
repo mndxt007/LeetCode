@@ -63,21 +63,28 @@ public static class Solution
         int total = 0;
         int countgreater = 0;
         int countless = 0;
+        int min = instructions.Min();
+        int max = instructions.Max();
         for (int i = 1; i < instructions.Length; i++)
         {
-            if (instructions[i] != instructions[i - 1])
+            //we don't really have to calculate when it's either min or max because cost will be zero.
+            if (instructions[i] != min && instructions[i] != max)
             {
-                countgreater = instructions[..i].Count(
-               x => x > instructions[i]
-           );
-                countless = instructions[..i].Count(
-                    x => x < instructions[i]
-                );
-                total += Math.Min(countgreater, countless);
+                //conditions to avoid calculation for repeating element like [9,9,9,9,9,9,9,7,7,7,7,7,3,3,3,3,3,3]
+                //Not really efficient where there is a repeating pattern [1,2,3,1,2,3,1,2,3]
+                if (instructions[i] != instructions[i - 1])
+                {
+                    countgreater = instructions[..i].Count(
+                   x => x > instructions[i]
+               );
+                    countless = instructions[..i].Count(
+                        x => x < instructions[i]
+                    );
+                    total += Math.Min(countgreater, countless);
+                }
             }
 
         }
-
         return total;
     }
 }
@@ -86,7 +93,8 @@ List<int[]> testcases = new()
 {
     new int[] {1,5,6,2},
     new int[] {1,2,3,6,5,4},
-    new int[] {1,3,3,3,2,4,2,1,2}
+    new int[] {1,3,3,3,2,4,2,1,2},
+    new int[] {1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3}
 };
 
 foreach (int[] case_ in testcases)
