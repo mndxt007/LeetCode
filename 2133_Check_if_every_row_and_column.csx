@@ -34,7 +34,7 @@ public static class Solution {
         int expectedSum = Enumerable.Range(1,matrix.Length).Sum();
         foreach (var row in matrix)
         {
-            if(row.Sum()<expectedSum)
+            if(row.Sum()!=expectedSum)
             {
                 return false;
             }
@@ -45,7 +45,7 @@ public static class Solution {
             var columnsum = matrix.Select(
                 array => array[i]
             ).Sum();
-             if(columnsum<expectedSum)
+             if(columnsum!=expectedSum)
             {
                 return false;
             }
