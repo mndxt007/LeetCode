@@ -29,31 +29,28 @@ n == matrix.length == matrix[i].length
 1 <= matrix[i][j] <= n
 */
 
-public static class Solution {
-    public static bool CheckValid(int[][] matrix) {
-        int expectedSum = Enumerable.Range(1,matrix.Length).Sum();
-        //this one breaks my logic - [[2,2,2],[2,2,2],[2,2,2]]
-        foreach (var row in matrix)
-        {
-            if(row.Sum()!=expectedSum)
-            {
-                return false;
-            }
-        }
+public static class Solution
+{
+    public static bool CheckValid(int[][] matrix)
+    {
 
-        for(int i=0;i<matrix.Length;i++)
+        for (int i = 0; i < matrix.Length; i++)
         {
-            var columnsum = matrix.Select(
-                array => array[i]
-            ).Sum();
-             if(columnsum!=expectedSum)
+            for (int j = 1; j <= matrix.Length; j++)
             {
-                return false;
+                var columns = matrix.Select(
+               array => array[i]
+           );
+                if (!columns.Contains(j) || !matrix[i].Contains(j))
+                {
+                    return false;
+                }
             }
+
         }
 
         return true;
-        
+
     }
 }
 
@@ -61,11 +58,12 @@ List<int[][]> testcases = new()
 {
     new int[][]{[1,2,3],[3,1,2],[2,3,1]},
     new int[][]{[1,1,1],[1,2,3],[1,2,3]},
-    new int[][]{[2,2,2],[2,2,2],[2,2,2]}
+    new int[][]{[2,2,2],[2,2,2],[2,2,2]},
+    new int[][]{[1,2,3],[3,1,2],[2,3,1]}
 };
 
 foreach (var case_ in testcases)
 {
-    Console.WriteLine($"Test Case - {String.Join("  ",case_.Select(innerList => string.Join(",", innerList)))}");
+    Console.WriteLine($"Test Case - {String.Join("  ", case_.Select(innerList => string.Join(",", innerList)))}");
     Console.WriteLine($"CheckValid - {Solution.CheckValid(case_)}");
 }
