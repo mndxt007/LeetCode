@@ -32,6 +32,7 @@ n == matrix.length == matrix[i].length
 public static class Solution {
     public static bool CheckValid(int[][] matrix) {
         int expectedSum = Enumerable.Range(1,matrix.Length).Sum();
+        //this one breaks my logic - [[2,2,2],[2,2,2],[2,2,2]]
         foreach (var row in matrix)
         {
             if(row.Sum()!=expectedSum)
@@ -60,6 +61,7 @@ List<int[][]> testcases = new()
 {
     new int[][]{[1,2,3],[3,1,2],[2,3,1]},
     new int[][]{[1,1,1],[1,2,3],[1,2,3]},
+    new int[][]{[2,2,2],[2,2,2],[2,2,2]}
 };
 
 foreach (var case_ in testcases)
