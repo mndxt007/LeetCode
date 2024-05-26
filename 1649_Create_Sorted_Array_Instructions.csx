@@ -66,7 +66,7 @@ public static class Solution
         int min = instructions.Min();
         int max = instructions.Max();
         int prev = instructions[0];
-        int prevcount = 0;
+        //int prevcount = 0;
         int prevmin = 0;
         for (int i = 1; i < instructions.Length; i++)
         {
@@ -87,7 +87,7 @@ public static class Solution
                     // }
                     // else
                      {
-                        prevcount = 0;
+                        //prevcount = 0;
                         countgreater = instructions[..i].Count(
                        x => x > instructions[i]
                          );
