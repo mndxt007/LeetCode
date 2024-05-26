@@ -47,39 +47,13 @@ public static class Solution
     public static int MaximumScore(int a, int b, int c)
     {
         int score = 0;
-        int[] piles = [a, b, c];
-        //Array.Sort(piles);
-        // 2 while loops that break at one of breaks
-        //hack:
-        return piles.Sum()/2;
-        a=piles[2];b=piles[0];c=piles[1];
-        while (a > 0 && b > 0)
+        int[] piles = {a,b,c};
+        Array.Sort(piles);
+        while(piles[1]>0)
         {
-            a--; b--;
+            piles[1]-=1;piles[2]-=1;
             score++;
-        }
-
-        if (a == 0)
-        {
-            while (c > 0 && b > 0)
-            {
-                c--; b--;
-                score++;
-            }
-        }
-
-        else if (a == 0 && b == 0)
-        {
-            return score;
-        }
-
-        else if (b == 0)
-        {
-            while (a > 0 && c > 0)
-            {
-                c--; a--;
-                score++;
-            }
+            Array.Sort(piles);
         }
         return score;
     }
@@ -98,3 +72,4 @@ foreach (var case_ in testcases)
     Console.WriteLine($"Test case - {String.Join(',', case_)}");
     Console.WriteLine($"Max score - {Solution.MaximumScore(case_[0], case_[1], case_[2])}");
 }
+
