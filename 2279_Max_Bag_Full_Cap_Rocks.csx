@@ -41,27 +41,25 @@ n == capacity.length == rocks.length
 
 public static class Solution {
     public static int MaximumBags(int[] capacity, int[] rocks, int additionalRocks) {
-        int remainingcap=0;
-        int fullcap=0;
-        for(int i=0; i<capacity.Length;i++)
+         var diff = Enumerable.Range(0,capacity.Length).Select(
+            i => capacity[i]-rocks[i]
+        );
+        var diffordered = diff.Order();
+        int count =0;
+        foreach (var item in diffordered)
         {
-            if(rocks[i]<capacity[i])
+            if (additionalRocks-item >= 0)
             {
-                remainingcap=capacity[i]-rocks[i];
-                if(additionalRocks - remainingcap >=0)
-                {
-                    additionalRocks-=remainingcap;
-                    fullcap++;
-                }
+                additionalRocks-=item;
+                count++;
             }
-            else if(rocks[i]==capacity[i])
+            else
             {
-                fullcap++;
+                break;
             }
-            
         }
-        return fullcap;
-        
+
+        return count;
     }
 }
 
