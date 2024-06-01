@@ -12,8 +12,8 @@ using System.Linq;
 // you can write to stdout for debugging purposes, e.g.
 // Console.WriteLine("this is a debug message");
 
-static class Solution {
-    static public int solution(int N) {
+public static class Solution {
+    public static int solution(int N) {
         // Implement your solution here
         string input = Convert.ToString(N,2);
         string pattern = @"(?<=1)(0+)(?=1)";
