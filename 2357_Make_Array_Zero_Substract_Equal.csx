@@ -31,24 +31,12 @@ public static class Solution
 {
     public static int MinimumOperations(int[] nums)
     {
-        List<int> set = new(nums.Distinct());
-        set.RemoveAll(x => x == 0);
-        Console.WriteLine(String.Join(',', set));
-        int counter = 0;
-        int min;
-        while (set.Count > 0)
-        {
-            min = set.Min();
-            for(int i=0;i<set.Count;i++)
-            {
-                set[i]-=min;
-            }
-            set.RemoveAll(x => x == 0);
-            counter++;
-        }
-        return counter;
+        return nums.Distinct().Count(
+            x => x != 0
+        );
     }
 }
+
 
 List<int[]> testcases = new()
 {
