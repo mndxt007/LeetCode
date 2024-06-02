@@ -1,4 +1,5 @@
 /*
+https://leetcode.com/problems/make-array-zero-by-subtracting-equal-amounts/description/
 You are given a non-negative integer array nums. In one operation, you must:
 
 Choose a positive integer x such that x is less than or equal to the smallest non-zero element in nums.
