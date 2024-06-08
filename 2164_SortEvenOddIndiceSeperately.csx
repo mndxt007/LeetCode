@@ -37,22 +37,39 @@ Constraints:
 
 public static class Solution {
     public static int[] SortEvenOdd(int[] nums) {
-        var odds = nums.Where( x => x%2 !=0).OrderDescending().GetEnumerator();
-        var evens = nums.Where( x => x%2 ==0).Order().GetEnumerator();
+        int[] oddindices = new int[nums.Length/2 ];
+        int[] evenindices = new int[nums.Length % 2 == 0 ? nums.Length/2 : nums.Length/2+1 ];
+        int oddcounter = 0;
+        int evencounter =0;
         for(int i=0; i < nums.Length; i++)
         {
-            if(nums[i] % 2 == 0)
+            if(i % 2 == 0)
             {
-                evens.MoveNext();
-                nums[i] = evens.Current;
+               evenindices[evencounter++] = nums[i];
                 
             }
             else{
-                odds.MoveNext();
-                nums[i] = odds.Current;
+                oddindices[oddcounter++] = nums[i];
                 
             }
         }
+        Array.Sort(evenindices);
+        Array.Sort(oddindices);
+        Array.Reverse(oddindices);
+        oddcounter = 0;
+        evencounter =0;
+        for(int i=0; i < nums.Length; i++)
+        {
+            if(i % 2 == 0)
+            {
+                 nums[i] = evenindices[evencounter++];
+                
+            }
+            else{
+                nums[i] = oddindices[oddcounter++];
+            }
+        }
+
         return nums;
         
     }
@@ -62,6 +79,8 @@ List<int[]> testcases = new()
 {
     new int[] {4,1,2,3},
     new int[] {2,1},
+    new int[] {36,45,32,31,15,41,9,46,36,6,15,16,33,26,27,31,44,34},
+    new int[] {5,39,33,5,12,27,20,45,14,25,32,33,30,30,9,14,44,15,21}
 };
 
 foreach (var case_ in testcases)
