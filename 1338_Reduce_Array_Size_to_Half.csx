@@ -45,7 +45,7 @@ public static class Solution {
         //var ordercount = counts.OrderByDescending(item => item.Value);
         var listofcounts = counts.Values.ToArray();
         Array.Sort(listofcounts);
-        Array.Reverse(listofcounts);
+        Array.Reverse(listofcounts);//
         int minsetsize = 0;
         int removedcount = 0;
         int length = arr.Length;
