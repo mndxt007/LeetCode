@@ -43,24 +43,23 @@ All matches[i] are unique.
 
 public static class Solution {
     public static IList<IList<int>> FindWinners(int[][] matches) {
-        Dictionary<int,int[]> stats = new();
+        Dictionary<int,int> stats = new();
         for (int i=0;i<matches.Length; i++)
         {
-            if(stats.ContainsKey(matches[i][0]))
+            // we don't really care about winners right?
+            // ok we do slightly. Removed the winner counting logic replaced with place holder
+            if(!stats.ContainsKey(matches[i][0]))
             {
-                stats[matches[i][0]][0]++;
+                stats.Add(matches[i][0],0);
             }
-            else
-            {
-                stats.Add(matches[i][0],[1,0]);
-            }
+
             if(stats.ContainsKey(matches[i][1]))
             {
-                stats[matches[i][1]][1]++;
+                stats[matches[i][1]]++;
             }
             else
             {
-                stats.Add(matches[i][1],[0,1]);
+                stats.Add(matches[i][1],1);
             }
 
         }
@@ -68,11 +67,11 @@ public static class Solution {
          var oneloss = new List<int>();
         foreach(var (player,stat) in stats)
         {
-            if(stat[1]==0)
+            if(stat==0)
             {
                 noloss.Add(player);
             }
-            if(stat[1]==1)
+            if(stat==1)
             {
                 oneloss.Add(player);
             }
