@@ -41,11 +41,15 @@ public static class Solution {
                 counts.Add(arr[i],1);
             }
         }
-        var ordercount = counts.OrderByDescending(item => item.Value);
+        //most likely timespent below;
+        //var ordercount = counts.OrderByDescending(item => item.Value);
+        var listofcounts = counts.Values.ToArray();
+        Array.Sort(listofcounts);
+        Array.Reverse(listofcounts);
         int minsetsize = 0;
         int removedcount = 0;
         int length = arr.Length;
-        foreach (var (item,count) in ordercount)
+        foreach (var count in listofcounts)
         {
             minsetsize++;
             removedcount+=count;
