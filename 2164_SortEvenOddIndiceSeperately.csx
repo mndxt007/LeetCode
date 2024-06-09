@@ -88,3 +88,11 @@ foreach (var case_ in testcases)
     Console.WriteLine($"Test Case - {String.Join(',',case_)}");
     Console.WriteLine($"SortEvenOdd - {String.Join(',',Solution.SortEvenOdd(case_))}");
 }
+
+/*
+//{36,45,32,31,15,41,9,46,36,6,15,16,33,26,27,31,44,34}
+
+36,32,15,9,36,15,33,27,44
+9,15,15,27,32,33,36,44,
+
+*/
