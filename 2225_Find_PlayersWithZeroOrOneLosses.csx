@@ -43,10 +43,10 @@ All matches[i] are unique.
 
 public static class Solution {
     public static IList<IList<int>> FindWinners(int[][] matches) {
-        SortedDictionary<int,int[]> stats = new();
+        Dictionary<int,int[]> stats = new();
         for (int i=0;i<matches.Length; i++)
         {
-            if(stats.TryGetValue(matches[i][0], out _))
+            if(stats.ContainsKey(matches[i][0]))
             {
                 stats[matches[i][0]][0]++;
             }
@@ -54,7 +54,7 @@ public static class Solution {
             {
                 stats.Add(matches[i][0],[1,0]);
             }
-            if(stats.TryGetValue(matches[i][1], out _))
+            if(stats.ContainsKey(matches[i][1]))
             {
                 stats[matches[i][1]][1]++;
             }
@@ -64,24 +64,24 @@ public static class Solution {
             }
 
         }
-         IList<IList<int>> winners = new List<IList<int>>()
-         {
-            new List<int>(),
-            new List<int>(),
-         };
+         var noloss = new List<int>();
+         var oneloss = new List<int>();
         foreach(var (player,stat) in stats)
         {
             if(stat[1]==0)
             {
-                winners[0].Add(player);
+                noloss.Add(player);
             }
             if(stat[1]==1)
             {
-                winners[1].Add(player);
+                oneloss.Add(player);
             }
 
         }
-        return winners;
+         noloss.Sort();
+         oneloss.Sort();
+
+        return [noloss, oneloss];
     }
 }
 
