@@ -13,7 +13,7 @@ using System.Collections;
 static class Solution {
     public static int solution(int X, int[] A) {
         // Implement your solution here
-        long sum=0;
+        //long sum=0;
         HashSet<int> range= new HashSet<int>(Enumerable.Range(1,X));
         //long expectedsum = range.Sum();
         var current = new HashSet<int>();
