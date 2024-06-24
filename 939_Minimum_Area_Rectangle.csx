@@ -26,18 +26,13 @@ All the given points are unique.
 */
 
 
-
-using System.Collections.Immutable;
-using System.Text.RegularExpressions;
-
 public static class Solution
 {
     public static int MinAreaRect(int[][] points)
     {
         int minLength = 0;
         int minHieght = 0;
-        int prevX = 0;
-        Dictionary<int, List<int>> xpointsGrouped = new();
+        Dictionary<int, HashSet<int>> xpointsGrouped = new();
         for (int i = 0; i < points.Length; i++)
         {
             if (xpointsGrouped.ContainsKey(points[i][0]))
@@ -46,20 +41,27 @@ public static class Solution
             }
             else
             {
-                xpointsGrouped.Add(points[i][0], new List<int> { points[i][1] });
+                xpointsGrouped.Add(points[i][0], new HashSet<int> { points[i][1] });
             }
         }
         var sxpointsGrouped = xpointsGrouped.Where(item => item.Value.Count > 1).OrderBy( x => x.Key);
         if (sxpointsGrouped.Count() > 1)
         {
-            minHieght = FindMinDifference(sxpointsGrouped.First().Value);
-            prevX = sxpointsGrouped.ElementAt(1).Key;
-            minLength = (prevX - sxpointsGrouped.First().Key);
+            var currX = sxpointsGrouped.First();
+            var prevX = sxpointsGrouped.ElementAt(1);
+            if(currX.Value.IsSubsetOf(prevX.Value))
+            {
+                 minHieght = FindMinDifference(sxpointsGrouped.First().Value.ToList<int>());
+            }
+            minLength = (prevX.Key - currX.Key);
             foreach (var xpoint in sxpointsGrouped.Skip(2))
             {
-                minHieght = Math.Min(minHieght, FindMinDifference(xpoint.Value));
-                minLength = Math.Min(minLength, xpoint.Key - prevX);
-                prevX = xpoint.Key;
+                if(xpoint.Value.IsSubsetOf(prevX.Value))
+                {
+                    minHieght = Math.Min(minHieght, FindMinDifference(xpoint.Value.ToList<int>()));
+                }
+                minLength = Math.Min(minLength, xpoint.Key - prevX.Key);
+                prevX = xpoint;
             }
             return minHieght * minLength;
         }
@@ -85,6 +87,7 @@ public static class Solution
 List<List<int[]>> testcases = [
     [[1,1],[1,3],[3,1],[3,3],[2,2]],
     [[1,1],[1,3],[3,1],[3,3],[4,1],[4,3]],
+    [[3,2],[3,1],[4,4],[1,1],[4,3],[0,3],[0,2],[4,0]]
 ];
 
 foreach (var item in testcases)
