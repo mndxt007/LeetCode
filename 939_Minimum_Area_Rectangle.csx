@@ -49,7 +49,7 @@ public static class Solution
                 xpointsGrouped.Add(points[i][0], new List<int> { points[i][1] });
             }
         }
-        var sxpointsGrouped = xpointsGrouped.Where(item => item.Value.Count > 1);
+        var sxpointsGrouped = xpointsGrouped.Where(item => item.Value.Count > 1).OrderBy( x => x.Key);
         if (sxpointsGrouped.Count() > 1)
         {
             minHieght = FindMinDifference(sxpointsGrouped.First().Value);
