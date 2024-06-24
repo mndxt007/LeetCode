@@ -44,23 +44,24 @@ public static class Solution
                 xpointsGrouped.Add(points[i][0], new HashSet<int> { points[i][1] });
             }
         }
-        var sxpointsGrouped = xpointsGrouped.Where(item => item.Value.Count > 1).OrderBy( x => x.Key);
+        var sxpointsGrouped = xpointsGrouped.Where(item => item.Value.Count > 1).OrderBy(x => x.Key);
         if (sxpointsGrouped.Count() > 1)
         {
             var currX = sxpointsGrouped.First();
             var prevX = sxpointsGrouped.ElementAt(1);
-            if(currX.Value.IsSubsetOf(prevX.Value))
+            if (currX.Value.Intersect(prevX.Value).Count() > 1)
             {
-                 minHieght = FindMinDifference(sxpointsGrouped.First().Value.ToList<int>());
+                minHieght = FindMinDifference(sxpointsGrouped.First().Value.ToList<int>());
+                minLength = (prevX.Key - currX.Key);
             }
-            minLength = (prevX.Key - currX.Key);
+
             foreach (var xpoint in sxpointsGrouped.Skip(2))
             {
-                if(xpoint.Value.IsSubsetOf(prevX.Value))
+                if (xpoint.Value.Intersect(prevX.Value).Count() > 1)
                 {
                     minHieght = Math.Min(minHieght, FindMinDifference(xpoint.Value.ToList<int>()));
+                    minLength = Math.Min(minLength, xpoint.Key - prevX.Key);
                 }
-                minLength = Math.Min(minLength, xpoint.Key - prevX.Key);
                 prevX = xpoint;
             }
             return minHieght * minLength;
@@ -87,7 +88,9 @@ public static class Solution
 List<List<int[]>> testcases = [
     [[1,1],[1,3],[3,1],[3,3],[2,2]],
     [[1,1],[1,3],[3,1],[3,3],[4,1],[4,3]],
-    [[3,2],[3,1],[4,4],[1,1],[4,3],[0,3],[0,2],[4,0]]
+    [[3,2],[3,1],[4,4],[1,1],[4,3],[0,3],[0,2],[4,0]],
+    [[0,1],[1,3],[3,3],[4,4],[1,4],[2,3],[1,0],[3,4]],
+    [[1,1],[1,3],[3,1],[3,3],[4,1],[4,3]]
 ];
 
 foreach (var item in testcases)
