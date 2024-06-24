@@ -30,8 +30,8 @@ public static class Solution
 {
     public static int MinAreaRect(int[][] points)
     {
-        int minLength = 0;
-        int minHieght = 0;
+        int minLength = Int16.MaxValue;
+        int minHieght = Int16.MaxValue;
         Dictionary<int, HashSet<int>> xpointsGrouped = new();
         for (int i = 0; i < points.Length; i++)
         {
@@ -64,7 +64,7 @@ public static class Solution
                 }
                 prevX = xpoint;
             }
-            return minHieght * minLength;
+            return (minHieght==Int16.MaxValue ? 0 :  minHieght)  * (minLength ==Int16.MaxValue ? 0 : minLength) ;
         }
         else
         {
@@ -90,7 +90,9 @@ List<List<int[]>> testcases = [
     [[1,1],[1,3],[3,1],[3,3],[4,1],[4,3]],
     [[3,2],[3,1],[4,4],[1,1],[4,3],[0,3],[0,2],[4,0]],
     [[0,1],[1,3],[3,3],[4,4],[1,4],[2,3],[1,0],[3,4]],
-    [[1,1],[1,3],[3,1],[3,3],[4,1],[4,3]]
+    [[1,1],[1,3],[3,1],[3,3],[4,1],[4,3]],
+    [[3,2],[0,0],[3,3],[3,4],[4,4],[2,1],[4,3],[1,0],[4,1],[0,2]],
+    [[1,1],[1,3],[3,1],[3,3],[2,2]]
 ];
 
 foreach (var item in testcases)
