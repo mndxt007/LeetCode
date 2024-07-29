@@ -54,14 +54,23 @@ public static class Solution
                 minHieght = FindMinDifference(sxpointsGrouped.First().Value.ToList<int>());
                 minLength = (prevX.Key - currX.Key);
             }
-
+            int runningHieght;
+            int runningLength;
             foreach (var xpoint in sxpointsGrouped.Skip(2))
             {
+                
                 if (xpoint.Value.Intersect(prevX.Value).Count() > 1)
                 {
-                    minHieght = Math.Min(minHieght, FindMinDifference(xpoint.Value.ToList<int>()));
-                    //cant calculate this individually
-                    minLength = Math.Min(minLength, xpoint.Key - prevX.Key);
+                    // minHieght = Math.Min(minHieght, FindMinDifference(xpoint.Value.ToList<int>()));
+                    // //cant calculate this individually
+                    // minLength = Math.Min(minLength, xpoint.Key - prevX.Key);
+                    runningHieght = FindMinDifference([.. xpoint.Value]);
+                    runningLength = xpoint.Key - prevX.Key;
+                    if((minHieght >= runningHieght) && (minLength >= runningLength))
+                    {
+                        minHieght = runningHieght;
+                        minLength = runningLength;
+                    }
                 }
                 prevX = xpoint;
             }
@@ -94,7 +103,9 @@ List<List<int[]>> testcases = [
     // [[1,1],[1,3],[3,1],[3,3],[4,1],[4,3]],
     // [[3,2],[0,0],[3,3],[3,4],[4,4],[2,1],[4,3],[1,0],[4,1],[0,2]],
     // [[1,1],[1,3],[3,1],[3,3],[2,2]],
-    [[1,2],[3,2],[1,3],[3,3],[3,0],[1,4],[4,2],[4,0]]
+    // [[1,2],[3,2],[1,3],[3,3],[3,0],[1,4],[4,2],[4,0]],
+    [[1,3],[2,1],[2,0],[4,3],[0,4],[4,2],[1,0],[3,4],[2,4],[4,0]] // thats as far as this algo will go. 
+    // I'm calculating running difference, where as this one has a rectangle between non consequtive X points.
 ];
 
 foreach (var item in testcases)
