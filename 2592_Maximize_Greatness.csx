@@ -27,6 +27,7 @@ public static class Solution
     public static int MaximizeGreatness(int[] nums)
     {
         var perm = nums.OrderBy(x => x).ToList();
+        Console.WriteLine($"Perm is - {String.Join(',',perm)}");
         for (int i = 0; i < nums.Length; i++)
         {
             for (int j = 0; j < perm.Count; j++)
@@ -35,6 +36,7 @@ public static class Solution
                 {
                     Console.WriteLine($"Removing perm[{j}] - {perm[j]}");
                     perm.RemoveAt(j);
+                    Console.WriteLine($"Perm is - {String.Join(',',perm)}");
                     break;
                 }
             }
@@ -47,11 +49,12 @@ public static class Solution
 List<int[]> testcases =
 [
     [1,3,5,2,1,3,1],
-    [1,2,3,4]
+    [1,2,3,4],
+    [1,5,3,2,1,3,1], // checking if order matters
 ];
 
 foreach (var testcase in testcases)
 {
-    Console.WriteLine($"Testcase - {String.Join(",", testcase)}");
+    Console.WriteLine($"\n\nTestcase - {String.Join(",", testcase)}");
     Console.WriteLine($"Maximized - {Solution.MaximizeGreatness(testcase)}");
 }
