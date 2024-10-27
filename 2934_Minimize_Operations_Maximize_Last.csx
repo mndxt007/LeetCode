@@ -53,75 +53,36 @@ public static class Solution
 {
     public static int MinOperations(int[] nums1, int[] nums2)
     {
-        var max1 = FindMax(nums1);
-        var max2 = FindMax(nums2);
+        var zip = nums1.Zip(nums2, (first, second) => new[] { first, second });
+        var last = zip.LastOrDefault();
         int count = 0;
-        int length = nums1.Length - 2;
-        int temp;
-        //Best case
-        if (nums1[^1] == max1[0] && nums2[^1] == max2[0])
+        int reversedcount = 0;
+        if (zip.All(
+            x => (x[0] <= last[0] && x[1] <= last[1]) || (x[0] <= last[1] && x[1] <= last[0])
+        ))
         {
-            return 0;
-        }
-
-        
-
-        else if (nums1[^1] == max1[0])
-        {
-            for (int i = length; i >= ((length - 109) < 0 ? 0 : length - 109); i--)
+            foreach (var x in zip)
             {
-                if (nums2[i] > nums2[^1])
+                if (!(x[0] <= last[0] && x[1] <= last[1]))
                 {
-                    temp = nums1[i];
-                    nums1[i] = nums2[i];
-                    nums2[i] = temp;
-                    count++;
-                    max2 = FindMax(nums2);
-                    if (nums1[^1] == max1[0] && nums2[^1] == max2[0])
+                    if (x[0] <= last[1] && x[1] <= last[0])
                     {
-                        return count;
+                        count++;
+                    }
+                }
+                if (!(x[0] <= last[1] && x[1] <= last[0]))
+                {
+                    if (x[0] <= last[0] && x[1] <= last[1])
+                    {
+                        reversedcount++;
                     }
                 }
 
 
             }
-        }
-        else if (nums2[^1] == max2[0])
-        {
-            for (int i = length; i >= ((length - 109) < 0 ? 0 : length - 109); i--)
-            {
-                if (nums1[i] > nums1[^1])
-                {
-                    temp = nums1[^1];
-                    nums1[^1] = nums2[^1];
-                    nums2[^1] = temp;
-                    count++;
-                    max1 = FindMax(nums1);
-                    if (nums1[^1] == max1[0] && nums2[^1] == max2[0])
-                    {
-                        return count;
-                    }
-                }
-
-
-            }
+            return Math.Min(count, reversedcount);
         }
         return -1;
-    }
-
-    static int[] FindMax(int[] nums)
-    {
-        int max = nums[0];
-        int maxIndex = 0;
-        for (int i = 1; i < nums.Length; i++)
-        {
-            if (nums[i] > max)
-            {
-                max = nums[i];
-                maxIndex = i;
-            }
-        }
-        return [max, maxIndex];
     }
 
 }
