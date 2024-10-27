@@ -56,48 +56,53 @@ public static class Solution
         var max1 = FindMax(nums1);
         var max2 = FindMax(nums2);
         int count = 0;
-        int length = nums1.Length - 1;
+        int length = nums1.Length - 2;
         int temp;
         //Best case
         if (nums1[^1] == max1[0] && nums2[^1] == max2[0])
         {
             return 0;
         }
+
+        
+
         else if (nums1[^1] == max1[0])
         {
-            max2 = max1;
             for (int i = length; i >= ((length - 109) < 0 ? 0 : length - 109); i--)
             {
-                if(nums1[i]==nums2[i])
-                    continue;
-                temp = nums1[i];
-                nums1[i] = nums2[i];
-                nums2[i] = temp;
-                count++;
-                max1 = FindMax(nums1);
-                if (nums1[^1] == max1[0] && nums2[^1] == max2[0])
+                if (nums2[i] > nums2[^1])
                 {
-                    return count;
+                    temp = nums1[i];
+                    nums1[i] = nums2[i];
+                    nums2[i] = temp;
+                    count++;
+                    max2 = FindMax(nums2);
+                    if (nums1[^1] == max1[0] && nums2[^1] == max2[0])
+                    {
+                        return count;
+                    }
                 }
+
 
             }
         }
         else if (nums2[^1] == max2[0])
         {
-            max1 = max2;
             for (int i = length; i >= ((length - 109) < 0 ? 0 : length - 109); i--)
             {
-                if(nums1[i]==nums2[i])
-                    continue;
-                temp = nums1[^1];
-                nums1[^1] = nums2[^1];
-                nums2[^1] = temp;
-                count++;
-                max2 = FindMax(nums2);
-                if (nums1[^1] == max1[0] && nums2[^1] == max2[0])
+                if (nums1[i] > nums1[^1])
                 {
-                    return count;
+                    temp = nums1[^1];
+                    nums1[^1] = nums2[^1];
+                    nums2[^1] = temp;
+                    count++;
+                    max1 = FindMax(nums1);
+                    if (nums1[^1] == max1[0] && nums2[^1] == max2[0])
+                    {
+                        return count;
+                    }
                 }
+
 
             }
         }
@@ -134,6 +139,9 @@ List<int[][]> testcases = [
     ],
     [
         [2,4,5],[4,7,12]
+    ],
+    [
+        [1,1,8,9],[1,7,1,1]
     ]
 
 ];
