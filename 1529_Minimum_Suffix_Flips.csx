@@ -51,23 +51,25 @@ public static class Solution {
         //easy
         if (target.Distinct().Count() == 1)
         {
-            if(target[0]==0)
+            if(target[0]=='0')
             return minFlips;
         }
-        for (int i = 0; i < target.Length; i++)
+        int i;
+        for (i= 0; i < target.Length-1; i++)
         {
             if(target[i]!=nextItem)
             {
                 minFlips++;
                 nextItem = nextItem=='1'?'0':'1';
-                if(target[(i+1)..].Distinct().Count() == 1)
+                if(!(target[(i+1)..].Contains("01") || target[(i+1)..].Contains("10")))
                 {
                     if(target[i+1] == nextItem)
                     break;
                 }
             }
         }
-        return minFlips; 
+        minFlips = (i == (target.Length-1)) ? minFlips+1 : minFlips;
+        return minFlips ; 
     }
 }
 
