@@ -11,8 +11,6 @@ nums1[n - 1] is equal to the maximum value among all elements of nums1, i.e., nu
 nums2[n - 1] is equal to the maximum value among all elements of nums2, i.e., nums2[n - 1] = max(nums2[0], nums2[1], ..., nums2[n - 1]).
 Return an integer denoting the minimum number of operations needed to meet both conditions, or -1 if it is impossible to satisfy both conditions.
 
- 
-
 Example 1:
 
 Input: nums1 = [1,2,7], nums2 = [4,5,3]
@@ -77,7 +75,6 @@ public static class Solution
                         reversedcount++;
                     }
                 }
-
 
             }
             return Math.Min(count, reversedcount);
