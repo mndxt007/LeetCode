@@ -35,52 +35,15 @@ n == energyDrinkA.length == energyDrinkB.length
 
 public static class Solution {
     public static long MaxEnergyBoost(int[] energyDrinkA, int[] energyDrinkB) {
-        int maxEnergyBoost = 0;
-        bool useEnergyDrinkA = true;
-        if((energyDrinkA[0]+energyDrinkA[1])<(energyDrinkB[0]+energyDrinkB[1]))
+        int n = energyDrinkA.Length;
+        long[] dpA = new long[n+2];
+        long[] dpB = new long[n+2];
+        for (int i = 2; i < n+2; i++)
         {
-            useEnergyDrinkA = false;
-            maxEnergyBoost+=energyDrinkB[0];
+            dpA[i] = Math.Max(dpA[i-1], dpB[i-2]) + energyDrinkA[i-2];
+            dpB[i] = Math.Max(dpB[i-1], dpA[i-2]) + energyDrinkB[i-2];
         }
-        else
-        {
-            maxEnergyBoost+=energyDrinkA[0];
-        }
-        for (int i = 1; i < energyDrinkA.Length-1; i++)
-        {
-            if(useEnergyDrinkA)
-            {
-                if((energyDrinkA[i]+energyDrinkA[i+1])>=(energyDrinkB[i]+energyDrinkB[i+1]))
-                {
-                    maxEnergyBoost+=energyDrinkA[i];
-                }
-                else
-                {
-                    useEnergyDrinkA=false;
-                }
-
-            }
-            else
-            {
-                if((energyDrinkB[i]+energyDrinkB[i+1])>=(energyDrinkA[i]+energyDrinkA[i+1]))
-                {
-                    maxEnergyBoost+=energyDrinkB[i];
-                }
-                else
-                {
-                    useEnergyDrinkA=true;
-                }
-            }
-        }
-        if(useEnergyDrinkA)
-        {
-            maxEnergyBoost+=energyDrinkA[^1];
-        }
-        else
-        {
-            maxEnergyBoost+=energyDrinkB[^1];
-        }
-        return maxEnergyBoost;
+        return Math.Max(dpA[n+1], dpB[n+1]);
     }
 }
 
