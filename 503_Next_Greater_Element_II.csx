@@ -25,22 +25,21 @@ using Dumpify;
 using System.Collections.Generic;
 
  public static int[] NextGreaterElements(int[] nums) {
-         int n = nums.Length;
+        int n = nums.Length;
         int[] result = new int[n];
         Stack<int> stack = new();
-        
         // Process from right to left
-        for (int i = n - 1; i >= 0; i--) {
+        for (int i = (2*n) - 1; i >= 0; i--) {
             // Remove smaller elements from stack
-            while (stack.Count > 0 && stack.Peek() <= nums[i]) {
+            while (stack.Count > 0 && stack.Peek() <= nums[i%n]) {
                 stack.Pop();
             }
             
             // Set result
-            result[i] = stack.Count == 0 ? -1 : stack.Peek();
+            result[i%n] = stack.Count == 0 ? -1 : stack.Peek();
             
             // Add current element
-            stack.Push(nums[i]);
+            stack.Push(nums[i%n]);
         }
         
         return result;
@@ -48,7 +47,9 @@ using System.Collections.Generic;
 
 List<int[]> testcases = [
     [1,2,1],
-    [1,2,3,4,3]
+    [1,2,3,4,3],
+    [1,2,3,4,4],
+    [1,2,3,2,1]
 ];
 
 foreach (var case_ in testcases)
