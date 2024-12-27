@@ -26,19 +26,23 @@ public int MaxVowels(string s, int k)
     var vowels = "aeiou";
     int maxVowels = 0;
     int windowVowels = 0;
-    if(k > s.Length)
+    int[] isVowel = new int[s.Length];
+    if (k > s.Length)
         return 0;
     //calculate initial number of vowels.
-    foreach (var item in s[..k])
+    for (int i = 0; i < s.Length; i++)
     {
-        if(vowels.Contains(item))
-            maxVowels++;
+        isVowel[i] = vowels.Contains(s[i]) ? 1 : 0;
+    }
+    foreach (var item in isVowel[..k])
+    {
+        maxVowels+=item;
     }
     windowVowels = maxVowels;
     for (int i = 0; i < s.Length - k; i++)
     {
-        windowVowels = windowVowels - (vowels.Contains(s[i])?1:0) + (vowels.Contains(s[i+k])?1:0);
-        maxVowels = Math.Max(windowVowels,maxVowels);
+        windowVowels = windowVowels - isVowel[i] + isVowel[i+k];
+        maxVowels = Math.Max(windowVowels, maxVowels);
     }
 
 
@@ -64,5 +68,5 @@ List<TestCase> testcases = new()
 foreach (var item in testcases)
 {
     Console.WriteLine($"Test Case -> s = {item.s} \t k = {item.k}");
-    Console.WriteLine($"Max Vowels - {MaxVowels(item.s,item.k)}");
+    Console.WriteLine($"Max Vowels - {MaxVowels(item.s, item.k)}");
 }
