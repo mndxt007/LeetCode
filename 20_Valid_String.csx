@@ -39,7 +39,7 @@ public bool IsValid(string s)
     }
     Stack<char> stack = new();
     char parentheses;
-    for (int i = 0; i < s.Length - 1; i++)
+    for (int i = 0; i < s.Length; i++)
     {
         parentheses = s[i];
         switch (parentheses)
@@ -50,19 +50,19 @@ public bool IsValid(string s)
                 stack.Push(parentheses);
                 break;
             case ')':
-                if (stack.Count > 0 && stack.Pop() != '(')
+                if (stack.Count == 0 || stack.Pop() != '(')
                 {
                     return false;
                 }
                 break;
             case ']':
-                if (stack.Count > 0 &&  stack.Pop() != '[')
+                if (stack.Count == 0 || stack.Pop() != '[')
                 {
                     return false;
                 }
                 break;
             case '}':
-                if (stack.Count > 0 && stack.Pop() != '{')
+                if (stack.Count == 0 || stack.Pop() != '{')
                 {
                     return false;
                 }
@@ -70,31 +70,34 @@ public bool IsValid(string s)
 
         }
     }
-    switch (s[^1])
+    while (stack.Count > 0)
     {
-        case '(':
-        case '[':
-        case '{':
-            return false;
-        case ')':
-                if (stack.Count > 0 && stack.Pop() != '(')
+        switch (stack.Pop())
+        {
+            case '(':
+            case '[':
+            case '{':
+                return false;
+            case ')':
+                if (stack.Pop() != '(')
                 {
                     return false;
                 }
                 break;
             case ']':
-                if (stack.Count > 0 && stack.Pop() != '[')
+                if (stack.Pop() != '[')
                 {
                     return false;
                 }
                 break;
             case '}':
-                if (stack.Count > 0 && stack.Pop() != '{')
+                if (stack.Pop() != '{')
                 {
                     return false;
                 }
                 break;
-        
+
+        }
     }
     return true;
 }
@@ -106,7 +109,9 @@ List<string> testcases = [
     "(]",
     "([])",
     "((",
-    "){"
+    "){",
+    "[[[]",
+    "))"
 ];
 
 foreach (var testcase in testcases)
