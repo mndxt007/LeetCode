@@ -50,19 +50,19 @@ public bool IsValid(string s)
                 stack.Push(parentheses);
                 break;
             case ')':
-                if (stack.Pop() != '(')
+                if (stack.Count > 0 && stack.Pop() != '(')
                 {
                     return false;
                 }
                 break;
             case ']':
-                if (stack.Pop() != '[')
+                if (stack.Count > 0 &&  stack.Pop() != '[')
                 {
                     return false;
                 }
                 break;
             case '}':
-                if (stack.Pop() != '{')
+                if (stack.Count > 0 && stack.Pop() != '{')
                 {
                     return false;
                 }
@@ -77,19 +77,19 @@ public bool IsValid(string s)
         case '{':
             return false;
         case ')':
-                if (stack.Pop() != '(')
+                if (stack.Count > 0 && stack.Pop() != '(')
                 {
                     return false;
                 }
                 break;
             case ']':
-                if (stack.Pop() != '[')
+                if (stack.Count > 0 && stack.Pop() != '[')
                 {
                     return false;
                 }
                 break;
             case '}':
-                if (stack.Pop() != '{')
+                if (stack.Count > 0 && stack.Pop() != '{')
                 {
                     return false;
                 }
@@ -106,6 +106,7 @@ List<string> testcases = [
     "(]",
     "([])",
     "((",
+    "){"
 ];
 
 foreach (var testcase in testcases)
