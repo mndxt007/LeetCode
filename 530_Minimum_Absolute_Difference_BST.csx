@@ -21,6 +21,7 @@ The number of nodes in the tree is in the range [2, 104].
 Note: This question is the same as 783: https://leetcode.com/problems/minimum-distance-between-bst-nodes/
 */
 
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Spectre.Console.Rendering;
 
 public class TreeNode
@@ -42,14 +43,28 @@ public static class Solution
     {
         var currentnode = root;
         int min = Int32.MaxValue;
-        if(currentnode.left is not null && currentnode.right is not null)
+        if (currentnode.left is not null || currentnode.right is not null)
         {
-            min =  Int32.Min(Math.Abs(currentnode.val-currentnode.left.val),Math.Abs(currentnode.val-currentnode.right.val));
-            min =  Int32.Min(min,Math.Abs(currentnode.left!.val-currentnode.right.val));
-            min = Int32.Min(min,GetMinimumDifference(currentnode.left));
-            min = Int32.Min(min,GetMinimumDifference(currentnode.right));
+            if (currentnode.left is not null && currentnode.right is not null)
+            {
+                min = Int32.Min(Math.Abs(currentnode.val - currentnode.left.val), Math.Abs(currentnode.val - currentnode.right.val));
+                min = Int32.Min(min, Math.Abs(currentnode.left!.val - currentnode.right.val));
+                min = Int32.Min(min, GetMinimumDifference(currentnode.left));
+                min = Int32.Min(min, GetMinimumDifference(currentnode.right));
+            }
+            else if (currentnode.left is not null && currentnode.right is null)
+            {
+                 min = Math.Abs(currentnode.val - currentnode.left.val);
+                 min = Int32.Min(min, GetMinimumDifference(currentnode.left));
+            }
+            else
+            {
+                min = Math.Abs(currentnode.val - currentnode.right.val);
+                 min = Int32.Min(min, GetMinimumDifference(currentnode.right));
+            }
+
         }
-       
+
         return min;
     }
 }
