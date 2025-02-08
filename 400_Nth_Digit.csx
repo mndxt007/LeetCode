@@ -16,7 +16,6 @@ Constraints:
 1 <= n <= 231 - 1
 */
 
-
 using System.Globalization;
 
 public int FindNthDigit(int n) {
