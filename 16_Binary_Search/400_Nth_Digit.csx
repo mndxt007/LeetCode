@@ -1,5 +1,5 @@
 /*
-https://leetcode.com/problems/nth-digit/solutions/5738879/c-solution/
+https://leetcode.com/problems/nth-digit/description/
 Given an integer n, return the nth digit of the infinite integer sequence [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ...].
 Example 1:
 
@@ -16,7 +16,6 @@ Constraints:
 1 <= n <= 231 - 1
 */
 
-using System.Globalization;
 
 public int FindNthDigit(int n) {
         //Brute Force
