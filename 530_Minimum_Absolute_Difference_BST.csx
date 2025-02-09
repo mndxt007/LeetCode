@@ -39,28 +39,24 @@ public class TreeNode
 
 public static class Solution
 {
+    static int min = Int32.MaxValue;
+    static int prevmin = -1;
     public static int GetMinimumDifference(TreeNode root)
     {
-        List<int> inOrderList = new();
-        InOrderTraversal(root, inOrderList);
-        Console.WriteLine($"inOrderList - {String.Join(",",inOrderList)}");
-        int min = Int32.MaxValue;
-        for (int i = 0; i < inOrderList.Count; i++)
-        {
-            for (int j = i+1; j < inOrderList.Count; j++)
-            {
-                min = Math.Min(inOrderList[j]-inOrderList[i],min);
-            }
-        }
+        InOrderTraversal(root);
         return min;
     }
-    public static void InOrderTraversal(TreeNode node, List<int> inOrderList)
+    public static void InOrderTraversal(TreeNode node)
     {
         if(node == null)
             return;
-        InOrderTraversal(node.left, inOrderList);
-        inOrderList.Add(node.val);
-        InOrderTraversal(node.right, inOrderList);
+        InOrderTraversal(node.left);
+        if(prevmin != -1)
+        {
+            min = Math.Min(min, Math.Abs(prevmin-node.val));
+        }
+        prevmin=node.val;
+        InOrderTraversal(node.right);
     }
 
 }
