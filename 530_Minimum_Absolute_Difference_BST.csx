@@ -41,31 +41,27 @@ public static class Solution
 {
     public static int GetMinimumDifference(TreeNode root)
     {
-        var currentnode = root;
+        List<int> inOrderList = new();
+        InOrderTraversal(root, inOrderList);
+        Console.WriteLine($"inOrderList - {String.Join(",",inOrderList)}");
         int min = Int32.MaxValue;
-        if (currentnode.left is not null || currentnode.right is not null)
+        for (int i = 0; i < inOrderList.Count; i++)
         {
-            if (currentnode.left is not null && currentnode.right is not null)
+            for (int j = i+1; j < inOrderList.Count; j++)
             {
-                min = Int32.Min(Math.Abs(currentnode.val - currentnode.left.val), Math.Abs(currentnode.val - currentnode.right.val));
-                min = Int32.Min(min, Math.Abs(currentnode.left!.val - currentnode.right.val));
-                min = Int32.Min(min, GetMinimumDifference(currentnode.left));
-                min = Int32.Min(min, GetMinimumDifference(currentnode.right));
+                min = Math.Min(inOrderList[j]-inOrderList[i],min);
             }
-            else if (currentnode.left is not null && currentnode.right is null)
-            {
-                 min = Math.Abs(currentnode.val - currentnode.left.val);
-                 min = Int32.Min(min, GetMinimumDifference(currentnode.left));
-            }
-            else
-            {
-                min = Math.Abs(currentnode.val - currentnode.right.val);
-                 min = Int32.Min(min, GetMinimumDifference(currentnode.right));
-            }
-
         }
-
         return min;
     }
+    public static void InOrderTraversal(TreeNode node, List<int> inOrderList)
+    {
+        if(node == null)
+            return;
+        InOrderTraversal(node.left, inOrderList);
+        inOrderList.Add(node.val);
+        InOrderTraversal(node.right, inOrderList);
+    }
+
 }
 
