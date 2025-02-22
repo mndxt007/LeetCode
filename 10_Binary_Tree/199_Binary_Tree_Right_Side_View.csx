@@ -43,36 +43,32 @@ public class Solution {
     public IList<int> RightSideView(TreeNode root) {
          if(root==null)
         {
-            return [];
+            return new List<int>();
         }
         List<List<int>> rightnodes = new();
-        rightnodes.Add(new());
         int level  = 0;
-        int count = 0;
         Queue<TreeNode> queue = new();
+
         queue.Enqueue(root);
         TreeNode current;
+
         while(queue.Count > 0)
         {
-            current = queue.Dequeue();
-            count++;
-            if(count > Math.Pow(2,level))
+            int len = queue.Count;
+            rightnodes.Add(new());
+
+            for(int i =0; i< len; i++)
             {
-                level++;
-                rightnodes.Add(new());
-                count= 1;
-            }
-            if(current == null)
-            {
-                Console.Write("null,");
-                continue;
-               
-            }
-            Console.Write($"{current.val},");
-            rightnodes[level].Add(current.val);            
-            queue.Enqueue(current.left);
-            queue.Enqueue(current.right);
+                current = queue.Dequeue();
+                rightnodes[level].Add(current.val);
+                if(current.left != null)
+                    queue.Enqueue(current.left);
+                if(current.right != null)
+                    queue.Enqueue(current.right);
+            }   
+            level++;                       
+            
         }
-        return rightnodes.Where(levelitems => levelitems.Count > 0).Select(levelitems => levelitems[^1]).ToList();
+        return rightnodes.Select(levelitems => levelitems[^1]).ToList();
     }
 }
