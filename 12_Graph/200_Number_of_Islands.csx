@@ -49,29 +49,22 @@ public static class Solution {
 
     private static void Traverse(int row, int column,char[][] grid)
     {
-        int rowLength = grid.Length;
-        int columnLength = grid[0].Length;
-        if(grid[row][column] == '1')
+        if
+        (
+            row < 0 || row >= grid.Length || 
+            column < 0 || column >= grid[0].Length || 
+            grid[row][column] == '0'
+        )
         {
-            grid[row][column]= '0';
-            if(row != 0)
-            {
-                Traverse(row-1,column,grid);           
-            }
-            if(row+1 != rowLength)
-            {
-                Traverse(row+1,column,grid);
-            }
-            if (column !=0)
-            {
-                Traverse(row,column-1,grid);
-            }
-            if(column+1 != columnLength)
-            {
-                Traverse(row,column+1,grid);
-            }
+            return;
         }
+        grid[row][column]= '0';
+        Traverse(row-1,column,grid);           
+        Traverse(row+1,column,grid);
+        Traverse(row,column-1,grid);
+        Traverse(row,column+1,grid);
     }
+    
 }
 
 List<char[][]> testcases = [
