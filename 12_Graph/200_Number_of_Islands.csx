@@ -32,15 +32,14 @@ grid[i][j] is '0' or '1'.
 
 public static class Solution {
     public static int NumIslands(char[][] grid) {
-        HashSet< Tuple<int,int>> visited = new();
         int islands = 0;
         for(int row = 0; row < grid.Length; row++)
         {
             for(int column = 0; column < grid[0].Length; column++)
             {
-                if(grid[row][column] == '1' && !visited.Contains(Tuple.Create<int,int>(row,column)))
+                if(grid[row][column] == '1')
                 {
-                    BFS(row,column,grid,visited);
+                    Traverse(row,column,grid);
                     islands++;
                 }
             }
@@ -48,35 +47,28 @@ public static class Solution {
         return islands;
     }
 
-    private static void BFS(int row, int column,char[][] grid,HashSet< Tuple<int,int>> visited)
+    private static void Traverse(int row, int column,char[][] grid)
     {
-        Queue<Tuple<int,int>> queue = new();
         int rowLength = grid.Length;
         int columnLength = grid[0].Length;
-        queue.Enqueue(Tuple.Create<int,int>(row,column));
-        while (queue.Count > 0) 
+        if(grid[row][column] == '1')
         {
-            Tuple<int,int> current = queue.Dequeue();
-            row = current.Item1; column=current.Item2;
-            if(grid[row][column] == '1' && !visited.Contains(current))
+            grid[row][column]= '0';
+            if(row != 0)
             {
-                if(row != 0)
-                {
-                    queue.Enqueue(Tuple.Create<int,int>(row-1,column));            
-                }
-                if(row+1 != rowLength)
-                {
-                    queue.Enqueue(Tuple.Create<int,int>(row+1,column));
-                }
-                if (column !=0)
-                {
-                    queue.Enqueue(Tuple.Create<int,int>(row,column-1));
-                }
-                if(column+1 != columnLength)
-                {
-                    queue.Enqueue(Tuple.Create<int,int>(row,column+1));
-                }
-                visited.Add(current);
+                Traverse(row-1,column,grid);           
+            }
+            if(row+1 != rowLength)
+            {
+                Traverse(row+1,column,grid);
+            }
+            if (column !=0)
+            {
+                Traverse(row,column-1,grid);
+            }
+            if(column+1 != columnLength)
+            {
+                Traverse(row,column+1,grid);
             }
         }
     }
@@ -94,6 +86,11 @@ List<char[][]> testcases = [
         ['1','1','0','0','0'],
         ['0','0','1','0','0'],
         ['0','0','0','1','1']
+    ],
+    [
+        ['1','1','1'],
+        ['0','1','0'],
+        ['1','1','1']
     ]
 ];
 
