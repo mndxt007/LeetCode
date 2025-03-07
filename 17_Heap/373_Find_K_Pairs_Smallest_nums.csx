@@ -29,17 +29,28 @@ k <= nums1.length * nums2.length
 public static class Solution {
     public static IList<IList<int>> KSmallestPairs(int[] nums1, int[] nums2, int k) {
         IList<IList<int>> kSmallestPairs = [];
-        PriorityQueue<int[],int> queue = new();
-        for(int i = 0; i < k;i++)
+        PriorityQueue<ValueTuple<int,int>,int> queue = new();
+        HashSet<ValueTuple<int,int>> visited = new();
+        ValueTuple<int,int> tuple;
+        int i;
+        int j;
+        queue.Enqueue((0,0), nums1[0]+nums2[0]);
+        visited.Add((0,0));
+        while(k-- > 0 && queue.Count > 0)
         {
-            for(int j=0; j< nums2.Length;j++)
+            tuple = queue.Dequeue();
+            i = tuple.Item1; j= tuple.Item2;
+            kSmallestPairs.Add([nums1[i],nums2[j]]);      
+            if(i+1 < nums1.Length && !visited.Contains((i+1,j)))
             {
-                queue.Enqueue([nums1[i],nums2[j]],nums1[i]+nums2[j]);
+                queue.Enqueue((i+1,j), nums1[i+1]+nums2[j]);
+                visited.Add((i+1,j));
             }
-        }
-        for(int i=0;i<k;i++)
-        {
-            kSmallestPairs.Add(queue.Dequeue());
+            if(j+1 < nums2.Length && !visited.Contains((i,j+1)))
+            {
+                queue.Enqueue((i,j+1), nums1[i]+nums2[j+1]);
+                visited.Add((i,j+1));
+            }
         }
         return kSmallestPairs;
     }
