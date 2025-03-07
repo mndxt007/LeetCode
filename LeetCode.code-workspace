@@ -5,6 +5,6 @@
 		}
 	],
 	"settings": {
-		
+		"dotnet.server.useOmnisharp": true
 	}
 }

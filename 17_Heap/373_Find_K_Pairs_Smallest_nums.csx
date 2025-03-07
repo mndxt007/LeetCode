@@ -29,34 +29,17 @@ k <= nums1.length * nums2.length
 public static class Solution {
     public static IList<IList<int>> KSmallestPairs(int[] nums1, int[] nums2, int k) {
         IList<IList<int>> kSmallestPairs = [];
-        int inums1 = 0;
-        int inums2 = 0;
-        kSmallestPairs.Add([nums1[0],nums2[0]]);
-        for(int i = 1; i < k ; i++)
+        PriorityQueue<int[],int> queue = new();
+        for(int i = 0; i < k;i++)
         {
-            if(nums1[inums1+1] >= nums1[inums2+1])
+            for(int j=0; j< nums2.Length;j++)
             {
-                if(inums1 >= k-1)
-                {
-                    inums1=0;
-                }
-                else
-                {
-                    inums1++;
-                }            
+                queue.Enqueue([nums1[i],nums2[j]],nums1[i]+nums2[j]);
             }
-            else
-            {
-                if(inums2 >= k-1)
-                {
-                    inums2=0;
-                }
-                else
-                {
-                    inums2++;
-                }  
-            }
-            kSmallestPairs.Add([nums1[inums1],nums2[inums2]]);
+        }
+        for(int i=0;i<k;i++)
+        {
+            kSmallestPairs.Add(queue.Dequeue());
         }
         return kSmallestPairs;
     }
