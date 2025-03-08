@@ -31,20 +31,28 @@ Testing - 4:
 
 public static class Solution {
     public static int ClimbStairs(int n) {
-        Dictionary<int,int> memo = new();
-        memo[1] = 1;
-        memo[2] = 2;
-        for(int i=3;i<=n;i++)
+        int prev0 = 2;
+        int prev1 = 3;
+        int current = 0;
+        if(n < 4)
         {
-            memo[i]=memo[i-1]+memo[i-2];
+            return n;
         }
-        return memo[n];
+        for(int i=4;i<=n;i++)
+        {
+            current = prev1 + prev0; 
+            prev0 = prev1;
+            prev1 = current;
+           
+        }
+        return current;
     }
 }
 
 List<int> testcases = [
     2,
-    3
+    3,
+    6
 ];
 
 foreach(int testcase in testcases)
