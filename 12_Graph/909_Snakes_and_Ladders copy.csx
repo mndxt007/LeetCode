@@ -33,53 +33,44 @@ Output: 1
 
 public int SnakesAndLadders(int[][] board)
 {
-    Queue<int> queue = new();
+    Queue<ValueTuple<int, int>> queue = new();
     int level = -1;
     HashSet<int> visited = new();
-    queue.Enqueue(1);
+    queue.Enqueue((1, 0));
     int currentpos = 1;
     int length = board.Length;
     int last = length * length;
-    while (queue.Count > 0 && currentpos < last && level <= length)
+    while (queue.Count > 0)
     {
-        int len = queue.Count;
-        for (int i = 0; i < len; i++)
+        (currentpos, level) = queue.Dequeue();
+        for (int next = 1; next <= 6; next++)
         {
-            currentpos = queue.Dequeue();
-            if (!visited.Contains(currentpos))
+            int nextpos = currentpos+next;
+            var indices = GetPosition(nextpos, length);
+            nextpos = board[indices.Item1][indices.Item2] == -1 ? nextpos : board[indices.Item1][indices.Item2];
+            if (nextpos == last)
             {
-                var indices = GetPosition(currentpos, length);
-                currentpos = board[indices.Item1][indices.Item2] == -1 ? currentpos : board[indices.Item1][indices.Item2];
-                if (currentpos == last)
-                {
-                    break;
-                }
-                for (int next = 1; next <= 6; next++)
-                {
-                    if (!visited.Contains(currentpos + next))
-                    {
-                        queue.Enqueue(currentpos + next);
-                    }
-                }
-                visited.Add(currentpos);
+                return level+1;
+            }
+            if (!visited.Contains(nextpos))
+            {
+                visited.Add(nextpos);
+                queue.Enqueue((nextpos,level+1));
             }
         }
-        level++;
     }
-    return level > length ? -1 : level;
+    return -1;
 }
 
-private ValueTuple<Index, Index> GetPosition(int position, int length)
+private (int, int) GetPosition(int s, int n)
 {
-    var r = new Index(((position - 1) / length) + 1, true);
-    int c = (position - 1) % length;
-    if ((r.Value) % 2 != 1)
-    {
-        return (r, new Index(c + 1, true));
-    }
-    return (r, c < 0 ? 0 : c);
-
+    int quot = (s - 1) / n;
+    int rem = (s - 1) % n;
+    int row = n - 1 - quot;  // Convert to board's row index (bottom row is at index n-1)
+    int col = (quot % 2 == 0) ? rem : n - 1 - rem;  // Reverse column order on alternating rows
+    return (row, col);
 }
+
 
 List<int[][]> testcases = [
     [
@@ -103,6 +94,43 @@ List<int[][]> testcases = [
         [1,1,-1],
         [1,1,1],
         [-1,1,1]
+    ],
+    [
+        [-1,-1,-1,46,47,-1,-1,-1],
+        [51,-1,-1,63,-1,31,21,-1],
+        [-1,-1,26,-1,-1,38,-1,-1],
+        [-1,-1,11,-1,14,23,56,57],
+        [11,-1,-1,-1,49,36,-1,48],
+        [-1,-1,-1,33,56,-1,57,21],
+        [-1,-1,-1,-1,-1,-1,2,-1],
+        [-1,-1,-1,8,3,-1,6,56]
+    ],
+    [
+        [1,1,-1],
+        [1,1,1],
+        [-1,1,1]
+    ],
+    [
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
     ]
 ];
 
