@@ -5,6 +5,7 @@
 		}
 	],
 	"settings": {
-		"dotnet.server.useOmnisharp": true
+		"dotnet.server.useOmnisharp": true,
+		"debug.console.collapseIdenticalLines" : false
 	}
 }
