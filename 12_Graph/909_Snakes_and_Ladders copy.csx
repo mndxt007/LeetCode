@@ -40,7 +40,7 @@ public int SnakesAndLadders(int[][] board)
     int currentpos = 1;
     int length = board.Length;
     int last = length * length;
-    while (queue.Count > 0 && currentpos < last)
+    while (queue.Count > 0 && currentpos < last && level <= length)
     {
         int len = queue.Count;
         for (int i = 0; i < len; i++)
@@ -60,15 +60,13 @@ public int SnakesAndLadders(int[][] board)
                     {
                         queue.Enqueue(currentpos + next);
                     }
-
                 }
                 visited.Add(currentpos);
             }
-
         }
         level++;
     }
-    return level;
+    return level > length ? -1 : level;
 }
 
 private ValueTuple<Index, Index> GetPosition(int position, int length)
@@ -100,6 +98,11 @@ List<int[][]> testcases = [
         [-1,-1,-1],
         [-1,9,8],
         [-1,8,9]
+    ],
+    [
+        [1,1,-1],
+        [1,1,1],
+        [-1,1,1]
     ]
 ];
 
