@@ -31,40 +31,29 @@ using System.Globalization;
 
 public int[] TwoSum(int[] numbers, int target)
 {
-    int othernum;
-    int index;
-    for(int i=0; i< numbers.Length ; i++)
+    int i=0;
+    int j=numbers.Length -1;
+    int sum;
+    while(i<j)
     {
-        othernum = target - numbers[i];
-        index = Array.BinarySearch(numbers, i + 1, numbers.Length - (i + 1), othernum);
-        if(index >= 0)
+        sum = numbers[i]+numbers[j];
+        if(sum==target)
         {
-            return[i+1,index+1];
+            return [i+1,j+1];
+        }
+        else if(sum>target)
+        {
+            j--;
+        }
+        else
+        {
+            i++;
         }
     }
     return [];
 }
 
-int BinarySearch(int number,int[] numbers,int startindex)
-{
-    if(numbers.Length == 1)
-    {
-        return numbers[0]==number?startindex:-1;
-    }
-    int mid = numbers.Length / 2;
-    if(number==numbers[mid])
-    {
-        return startindex+mid;
-    }
-    else if(number<numbers[mid])
-    {
-        return BinarySearch(number,numbers[..mid],startindex);
-    }
-    else
-    {
-         return BinarySearch(number,numbers[mid..],startindex+mid);
-    }
-}
+
 
 
 List<ValueTuple<int[], int>> testcases = [
