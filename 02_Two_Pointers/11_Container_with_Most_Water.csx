@@ -30,7 +30,7 @@ public int MaxArea(int[] height)
         curwidth = end - start;
         curheight = Math.Min(height[start],height[end]);
         area = Math.Max(area,curheight*curwidth);
-        if(height[start+1]>=height[end-1])
+        if(height[start]<=height[end])
         {
             start++;
         }
@@ -44,7 +44,8 @@ public int MaxArea(int[] height)
 
 List<int[]> testcases = [
     [1,8,6,2,5,4,8,3,7],
-    [1,1]
+    [1,1],
+    [1,2,4,3]
 ];
 
 foreach(var testcase in testcases)
