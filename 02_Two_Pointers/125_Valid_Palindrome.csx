@@ -32,17 +32,17 @@ public bool IsPalindrome(string s)
     int i=0;
     int j=s.Length-1;
 
-    while(i<j)
+    while(i<=j)
     {
-        while(!Char.IsAsciiLetter(s[i]) && i<j)
+        while(i <= s.Length-1 && !Char.IsAsciiLetterOrDigit(s[i]))
         {
             i++;
         }
-        while(!Char.IsAsciiLetter(s[j]) && i<j)
+        while(j >= 0 && !Char.IsAsciiLetterOrDigit(s[j]))
         {
             j--;
         }
-        if(Char.ToLower(s[i])!=Char.ToLower(s[j]))
+        if(i<=j && Char.ToLower(s[i])!=Char.ToLower(s[j]))
         {
             return false;
         }
@@ -57,7 +57,9 @@ List<string> testcases = [
     "A man, a plan, a canal: Panama",
     "race a car",
     " ",
-    "gadag"
+    "gadag",
+    "0P",
+    ".,"
 ];
 
 foreach (var testcase in testcases)
