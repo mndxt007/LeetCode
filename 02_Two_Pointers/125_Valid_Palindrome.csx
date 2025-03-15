@@ -32,17 +32,17 @@ public bool IsPalindrome(string s)
     int i=0;
     int j=s.Length-1;
 
-    while(i<=j)
+    while(i<j)
     {
-        while(i <= s.Length-1 && !Char.IsAsciiLetterOrDigit(s[i]))
+        while(!Char.IsAsciiLetterOrDigit(s[i]) && i<j)
         {
             i++;
         }
-        while(j >= 0 && !Char.IsAsciiLetterOrDigit(s[j]))
+        while(!Char.IsAsciiLetterOrDigit(s[j]) && i<j)
         {
             j--;
         }
-        if(i<=j && Char.ToLower(s[i])!=Char.ToLower(s[j]))
+        if(Char.ToLower(s[i])!=Char.ToLower(s[j]))
         {
             return false;
         }
