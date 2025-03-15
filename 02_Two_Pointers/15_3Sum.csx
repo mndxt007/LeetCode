@@ -25,61 +25,70 @@ Explanation: The only possible triplet sums up to 0.
 
 public IList<IList<int>> ThreeSum(int[] nums)
 {
-    IList<IList<int>> result = new List<IList<int>>();
-    HashSet<string> visited = new();
-    Array.Sort(nums);
-    int requiredsum;
-    ReadOnlySpan<int> spannums = nums;
-    ValueTuple<int,int> jk;
-    string key;
-    int[] resultitem = new int[3];
-    for(int i=0;i<nums.Length-2;i++)
+    HashSet<string> seen = new(); // Track unique triplets
+    List<IList<int>> result = new();
+
+    Array.Sort(nums); // Sorting enables the two-pointer approach
+
+    for (int i = 0; i < nums.Length - 2; i++)
     {
-        requiredsum = 0 - nums[i];
-        if(TwoSum(spannums.Slice(i+1),requiredsum,out jk))
+        if (i > 0 && nums[i] == nums[i - 1]) // Skip duplicate numbers for 'i'
+            continue;
+
+        int requiredSum = -nums[i];
+        List<(int, int)> pairs = TwoSum(nums, i + 1, requiredSum);
+
+        foreach (var (num1, num2) in pairs)
         {
-            key = $"{nums[i]},{jk.Item1},{jk.Item2}";
-            if(!visited.Contains(key))
+            string key = $"{nums[i]},{num1},{num2}"; // Unique identifier
+            if (!seen.Contains(key))
             {
-                result.Add([nums[i],jk.Item1,jk.Item2]);
-                visited.Add(key);
+                result.Add(new List<int> { nums[i], num1, num2 });
+                seen.Add(key);
             }
-                
         }
     }
+
     return result;
 }
 
-bool TwoSum(ReadOnlySpan<int> nums, int target,out ValueTuple<int,int> jk)
+private List<(int, int)> TwoSum(int[] nums, int start, int target)
 {
-    int j=0;
-    int k=nums.Length -1;
-    int sum;
-    while(j<k)
+    int left = start, right = nums.Length - 1;
+    List<(int, int)> pairs = new();
+
+    while (left < right)
     {
-        sum = nums[j]+nums[k];
-        if(sum==target)
+        int sum = nums[left] + nums[right];
+
+        if (sum == target)
         {
-            jk = (nums[j],nums[k]);
-            return true;
+            pairs.Add((nums[left], nums[right]));
+            left++;
+            right--;
+
+            // Skip duplicate numbers
+            while (left < right && nums[left] == nums[left - 1]) left++;
+            while (left < right && nums[right] == nums[right + 1]) right--;
         }
-        else if(sum>target)
+        else if (sum < target)
         {
-            k--;
+            left++;
         }
         else
         {
-            j++;
+            right--;
         }
     }
-    jk = (0,0);
-    return false;
+
+    return pairs;
 }
 
 List<int[]> testcases = [
     [-1,0,1,2,-1,-4],
     [0,1,1],
     [0,0,0],
+    [-2,0,1,1,2]
 ];
 
 foreach (var testcase in testcases)
