@@ -36,8 +36,8 @@ public int[] TwoSum(int[] numbers, int target)
     for(int i=0; i< numbers.Length ; i++)
     {
         othernum = target - numbers[i];
-        index = BinarySearch(othernum,numbers[(i+1)..],i+1);
-        if(index!= -1)
+        index = Array.BinarySearch(numbers, i + 1, numbers.Length - (i + 1), othernum);
+        if(index >= 0)
         {
             return[i+1,index+1];
         }
