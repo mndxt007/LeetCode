@@ -26,16 +26,25 @@ Explanation: The only possible triplet sums up to 0.
 public IList<IList<int>> ThreeSum(int[] nums)
 {
     IList<IList<int>> result = new List<IList<int>>();
+    HashSet<string> visited = new();
     Array.Sort(nums);
     int requiredsum;
     ReadOnlySpan<int> spannums = nums;
     ValueTuple<int,int> jk;
+    string key;
+    int[] resultitem = new int[3];
     for(int i=0;i<nums.Length-2;i++)
     {
         requiredsum = 0 - nums[i];
         if(TwoSum(spannums.Slice(i+1),requiredsum,out jk))
         {
-            result.Add([nums[i],jk.Item1,jk.Item2]);
+            key = $"{nums[i]},{jk.Item1},{jk.Item2}";
+            if(!visited.Contains(key))
+            {
+                result.Add([nums[i],jk.Item1,jk.Item2]);
+                visited.Add(key);
+            }
+                
         }
     }
     return result;
