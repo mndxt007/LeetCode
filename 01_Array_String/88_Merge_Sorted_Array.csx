@@ -39,7 +39,8 @@ public void Merge(int[] nums1, int m, int[] nums2, int n)
 {
     int nums1i=0;
     int nums2i=0;
-    while(nums1i < m && nums2i < n)
+    int fillindex = m;
+    while(nums1i < m+n && nums2i < n)
     {
         if(nums1[nums1i]<=nums2[nums2i])
         {
@@ -47,17 +48,14 @@ public void Merge(int[] nums1, int m, int[] nums2, int n)
         }
         else
         {
-            (nums1[nums1i],nums2[nums2i]) = (nums2[nums2i],nums1[nums1i]);
+            nums1[fillindex++] = nums1[nums1i];
+            nums1[nums1i] = nums2[nums2i];
             nums2i++;
-            if(nums2i>n)
-                break;
         }
     }
-    nums2i=0;
-    nums1i=m;
-    while(nums1i < m+n && nums2i < n)
+    while(fillindex < m+n && nums2i < n)
     {
-        nums1[nums1i++]=nums2[nums2i++];
+        nums1[fillindex++]=nums2[nums2i++];
     }
     Console.WriteLine($"After merging nums1=[{String.Join(',',nums1)}]");
 }
@@ -65,7 +63,8 @@ public void Merge(int[] nums1, int m, int[] nums2, int n)
 List<ValueTuple<int[],int,int[],int>> testcases = [
     ([1,2,3,0,0,0],3,[2,5,6],3),
     ([1],1,[],0),
-    ([0],0,[1],1)
+    ([0],0,[1],1),
+    ([4,0,0,0,0,0],1,[1,2,3,5,6],5)
 ];
 
 foreach(var testcase in testcases)
