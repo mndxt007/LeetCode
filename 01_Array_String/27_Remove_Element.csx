@@ -48,30 +48,46 @@ Constraints:
 
 public int RemoveElement(int[] nums, int val)
 {
-    int start = 0;
-    int end = nums.Length -1 ;
-    while(start < end)
+    switch(nums.Length)
     {
-        if(nums[start]==val)
-        {
-            while(nums[end]==val && start < end)
+        case 0:
+            return 0;
+        case 1:
+            return nums[0]==val?0:1;
+        default:
             {
-                end--;
+                int start = 0;
+                int end = nums.Length - 1;
+                while (start < end)
+                {
+                    if (nums[end] == val)
+                    {
+                        end--;
+                    }
+                    else
+                    {
+                        while(nums[start]!=val && start < end)
+                        {
+                            start++;
+                        }
+                        (nums[start],nums[end]) = (nums[end--],nums[start]);
+                    }
+                }
+                return start+1;
             }
-            (nums[start],nums[end]) = (nums[end--],nums[start]);
-        }
-        start++;
     }
-    return nums.Length - (nums.Length-end-1);
+   
 }
 
-List<ValueTuple<int[],int>> testcases = [
+List<ValueTuple<int[], int>> testcases = [
     ([3,2,2,3],3),
-    ([0,1,2,2,3,0,4,2],2)
+    ([0,1,2,2,3,0,4,2],2),
+    ([4,5],5),
+    ([3,3],3)
 ];
 
-foreach(var testcase in testcases)
+foreach (var testcase in testcases)
 {
-    Console.WriteLine($"nums - [{String.Join(',',testcase.Item1)}] k={testcase.Item2}");
-    Console.WriteLine($"items remaining - {RemoveElement(testcase.Item1,testcase.Item2)}");
+    Console.WriteLine($"nums - [{String.Join(',', testcase.Item1)}] k={testcase.Item2}");
+    Console.WriteLine($"items remaining - {RemoveElement(testcase.Item1, testcase.Item2)}");
 }
