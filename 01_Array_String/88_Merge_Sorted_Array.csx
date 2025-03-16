@@ -37,26 +37,29 @@ Follow up: Can you come up with an algorithm that runs in O(m + n) time?
 
 public void Merge(int[] nums1, int m, int[] nums2, int n)
 {
-    int nums1i=0;
-    int nums2i=0;
-    int fillindex = m;
-    while(nums1i < m+n && nums2i < n)
+    int nums1i=m-1;
+    int nums2i=n-1;
+    int fillindex = m+n -1;
+    while(nums1i >= 0 && nums2i >= 0)
     {
         if(nums1[nums1i]<=nums2[nums2i])
         {
-            nums1i++;
+            nums1[fillindex--]=nums2[nums2i--];
         }
         else
         {
-            nums1[fillindex++] = nums1[nums1i];
-            nums1[nums1i] = nums2[nums2i];
-            nums2i++;
+            nums1[fillindex--]=nums1[nums1i--];
         }
     }
-    while(fillindex < m+n && nums2i < n)
+    while(nums1i >= 0)
     {
-        nums1[fillindex++]=nums2[nums2i++];
+        nums1[fillindex--]=nums1[nums1i--];
     }
+    while(nums2i >= 0)
+    {
+         nums1[fillindex--]=nums2[nums2i--];
+    }
+
     Console.WriteLine($"After merging nums1=[{String.Join(',',nums1)}]");
 }
 
@@ -64,7 +67,8 @@ List<ValueTuple<int[],int,int[],int>> testcases = [
     ([1,2,3,0,0,0],3,[2,5,6],3),
     ([1],1,[],0),
     ([0],0,[1],1),
-    ([4,0,0,0,0,0],1,[1,2,3,5,6],5)
+    ([4,0,0,0,0,0],1,[1,2,3,5,6],5),
+    ([1,2,4,5,6,0],5,[3],1)
 ];
 
 foreach(var testcase in testcases)
