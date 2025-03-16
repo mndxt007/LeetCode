@@ -25,9 +25,8 @@ Explanation: The only possible triplet sums up to 0.
 
 public IList<IList<int>> ThreeSum(int[] nums)
 {
-    HashSet<string> seen = new(); // Track unique triplets
-    List<IList<int>> result = new();
-
+    List<IList<int>> result = [];
+    int j,k,sum;
     Array.Sort(nums); // Sorting enables the two-pointer approach
 
     for (int i = 0; i < nums.Length - 2; i++)
@@ -35,16 +34,25 @@ public IList<IList<int>> ThreeSum(int[] nums)
         if (i > 0 && nums[i] == nums[i - 1]) // Skip duplicate numbers for 'i'
             continue;
 
-        int requiredSum = -nums[i];
-        List<(int, int)> pairs = TwoSum(nums, i + 1, requiredSum);
-
-        foreach (var (num1, num2) in pairs)
+        j=i+1;
+        k=nums.Length-1;
+        while(j<k)
         {
-            string key = $"{nums[i]},{num1},{num2}"; // Unique identifier
-            if (!seen.Contains(key))
+            sum = nums[i]+nums[j]+nums[k];
+            if(sum>0)
+            {   
+                k--;
+            }
+            else if(sum < 0)
             {
-                result.Add(new List<int> { nums[i], num1, num2 });
-                seen.Add(key);
+                j++;
+            }
+            else
+            {
+                result.Add([nums[i],nums[j],nums[k]]);
+                j++;k--;
+                while (j < k && nums[j] == nums[j - 1]) j++;
+                while (j < k && nums[k] == nums[k + 1]) k--;
             }
         }
     }
@@ -52,42 +60,13 @@ public IList<IList<int>> ThreeSum(int[] nums)
     return result;
 }
 
-private List<(int, int)> TwoSum(int[] nums, int start, int target)
-{
-    int left = start, right = nums.Length - 1;
-    List<(int, int)> pairs = new();
 
-    while (left < right)
-    {
-        int sum = nums[left] + nums[right];
-
-        if (sum == target)
-        {
-            pairs.Add((nums[left], nums[right]));
-            left++;
-            right--;
-
-            // Skip duplicate numbers
-            while (left < right && nums[left] == nums[left - 1]) left++;
-            while (left < right && nums[right] == nums[right + 1]) right--;
-        }
-        else if (sum < target)
-        {
-            left++;
-        }
-        else
-        {
-            right--;
-        }
-    }
-
-    return pairs;
-}
 
 List<int[]> testcases = [
     [-1,0,1,2,-1,-4],
     [0,1,1],
     [0,0,0],
+    [0,0,0,0],
     [-2,0,1,1,2]
 ];
 
