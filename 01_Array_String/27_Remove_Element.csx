@@ -48,42 +48,47 @@ Constraints:
 
 public int RemoveElement(int[] nums, int val)
 {
-    switch(nums.Length)
+    int count=0;
+    int start = 0;
+    int end = nums.Length - 1;
+    while (start < end)
     {
-        case 0:
-            return 0;
-        case 1:
-            return nums[0]==val?0:1;
-        default:
+        if (nums[end] == val)
+        {
+            end--;
+            count++;
+        }
+        else
+        {
+            while(nums[start]!=val && start < end)
             {
-                int start = 0;
-                int end = nums.Length - 1;
-                while (start < end)
-                {
-                    if (nums[end] == val)
-                    {
-                        end--;
-                    }
-                    else
-                    {
-                        while(nums[start]!=val && start < end)
-                        {
-                            start++;
-                        }
-                        (nums[start],nums[end]) = (nums[end--],nums[start]);
-                    }
-                }
-                return start+1;
+                start++;
             }
+            if(nums[start]==val)
+            {
+                (nums[start],nums[end]) = (nums[end--],nums[start++]);
+                count++;
+            }
+            
+        }
+
     }
-   
+    while(end >=0)
+    {
+        if (nums[end--] == val)
+        {
+            count++;
+        }
+    }
+    return nums.Length-count;   
 }
 
 List<ValueTuple<int[], int>> testcases = [
     ([3,2,2,3],3),
     ([0,1,2,2,3,0,4,2],2),
     ([4,5],5),
-    ([3,3],3)
+    ([3,3],3),
+    ([3,3],5)
 ];
 
 foreach (var testcase in testcases)
