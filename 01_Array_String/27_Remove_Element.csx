@@ -83,6 +83,19 @@ public int RemoveElement(int[] nums, int val)
     return nums.Length-count;   
 }
 
+//copied solution - genius
+public int RemoveElement2(int[] nums, int val) {
+        int k = 0;
+
+        for(int i = 0; i < nums.Length; i++) {
+            if (nums[i] != val) {
+                nums[k] = nums[i];
+                k++;
+            }
+        }
+        return k;
+    }
+
 List<ValueTuple<int[], int>> testcases = [
     ([3,2,2,3],3),
     ([0,1,2,2,3,0,4,2],2),
