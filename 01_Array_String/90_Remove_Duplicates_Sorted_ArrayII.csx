@@ -41,26 +41,13 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 public int RemoveDuplicates(int[] nums)
 {
     int k=1;
-    int count=1;
+    int count=0;
     for(int i=1;i<nums.Length;i++)
     {
-        if(nums[i]!=nums[i-1])
+        count = nums[i]==nums[i-1]?count+1:0;
+        if(count < 2)
         {
             nums[k++]=nums[i];
-        }
-        else
-        {
-            count++;
-            if(count>1)
-            {
-               while(i < nums.Length-1 && nums[i+1]==nums[i])
-                {
-                    i++;
-                }
-                nums[k]=nums[i];
-                count=1;
-            }
-            k++;
         }
     }
     return k;
