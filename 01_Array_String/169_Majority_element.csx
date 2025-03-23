@@ -28,13 +28,13 @@ public int MajorityElement(int[] nums)
 {
     int result = nums[0];
     int count = 1;
-    for(int i=1;i < nums.Length; i++)
+    for (int i = 1; i < nums.Length; i++)
     {
-        count=nums[i]==result?count+1:count-1;
-        if(count < 0)
+        count = nums[i] == result ? count + 1 : count - 1;
+        if (count < 0)
         {
             result = nums[i];
-            count =1;
+            count = 1;
         }
     }
     return result;
@@ -46,8 +46,8 @@ List<int[]> testcases = [
     [10,9,9,9,10]
 ];
 
-foreach(var testcase in testcases)
+foreach (var testcase in testcases)
 {
-    Console.WriteLine($"nums=[{String.Join(',',testcase)}]");
+    Console.WriteLine($"nums=[{String.Join(',', testcase)}]");
     Console.WriteLine($"Majority Element - {MajorityElement(testcase)}");
 }
