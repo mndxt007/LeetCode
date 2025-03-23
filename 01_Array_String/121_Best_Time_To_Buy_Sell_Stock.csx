@@ -23,13 +23,11 @@ public int MaxProfit(int[] prices)
 {
     int maxprofit = 0;
     int lowprice = prices[0];
-    for (int i = 1; i < prices.Length; i++)
+    int length = prices.Length;
+    for (int i = 1; i < length; i++)
     {
         maxprofit = Math.Max(maxprofit, prices[i] - lowprice);
-        if(prices[i] < lowprice)
-        {
-            lowprice = prices[i];
-        }
+        lowprice = Math.Min(lowprice, prices[i]);
 
     }
     return maxprofit;
