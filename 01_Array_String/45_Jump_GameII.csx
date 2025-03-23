@@ -24,21 +24,28 @@ Constraints:
 It's guaranteed that you can reach nums[n - 1].
 */
 
+
+
 public int Jump(int[] nums)
 {
-    int maxjump = 0;
     int count=0;
-    int currentjump=0;
-    for (int i = 0; i < nums.Length && maxjump < (nums.Length -1) && maxjump >= i ; i++)
+    int left=0;
+    int right = 0;
+
+    while(right < nums.Length-1)
     {
-        currentjump = (i+nums[i])>= nums.Length ? nums.Length -1 : i+nums[i];
-        if(currentjump > maxjump)
+        int farthest = 0;
+        for (int i = left; i < right+1; i++)
         {
-            maxjump = currentjump;
-            count++;
+            farthest = Math.Max(farthest,i+nums[i]);
         }
+        left=right+1;
+        right=farthest;
+        count++;
     }
+
     return count;
+
 }
 
 List<int[]> testcases = [
