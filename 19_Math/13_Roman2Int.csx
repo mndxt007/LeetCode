@@ -49,38 +49,38 @@ It is guaranteed that s is a valid roman numeral in the range [1, 3999].
 public static class Solution
 {
 
-    public enum RomanNumeral
-    {
-        A = 0,
-        I = 1,
-        V = 5,
-        X = 10,
-        L = 50,
-        C = 100,
-        D = 500,
-        M = 1000
-    }
-
-
-// Ok I could have used Dictionary, Enums were overkill :)
+    // Ok I could have used Dictionary, Enums were overkill :)
 
     public static int RomanToInt(string s)
     {
+        Dictionary<char, int> dict = new()
+        {
+            { 'A', 0 },
+            { 'I', 1 },
+            { 'V', 5 },
+            { 'X', 10 },
+            { 'L', 50 },
+            { 'C', 100 },
+            { 'D', 500 },
+            { 'M', 1000 }
+    };
         int total = 0;
+        int current;
+        int next;
         for (int i = 0; i < s.Length; i++)
         {
-            Enum.TryParse(s[i].ToString(), out RomanNumeral current);
+            current = dict[s[i]];
             if (i != s.Length - 1)
             {
-                Enum.TryParse(s[i + 1].ToString(), out RomanNumeral next);
+                next = dict[s[i+1]];
                 if (current < next)
-                    total -= (int)current;
+                    total -= current;
                 else
-                    total += (int)current;
+                    total += current;
             }
             else
             {
-                total += (int)current;
+                total += current;
             }
         }
         return total;
