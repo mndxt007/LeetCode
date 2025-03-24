@@ -48,52 +48,35 @@ public static class Solution
      public static int CanCompleteCircuit(int[] gas, int[] cost)
     {
         if(gas.Sum() < cost.Sum()) return -1;
-        for (int i = 0; i < gas.Length; i++)
+        int remaininggas = 0;
+        int start=0;
+        for (int i = 0 ; i< gas.Length ; i++)
         {
-            int gasleft;
-            int iteration = i;
-            int gasrequired;
-            if ((gas[i] >= cost[i])&&gas[i]!=0)
-            {
-                gasleft = gas[i];
-                while ((((++iteration) % gas.Length) != i))
-                {
-                    gasrequired = cost[(iteration - 1) % gas.Length];
-                    Console.WriteLine($"Index- {i}, Gas left - {gasleft}, Gas required - {gasrequired}");
-                    if (gasrequired > gasleft)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        gasleft = gasleft + gas[iteration % gas.Length] - gasrequired;
-                    }
-                }
-                gasrequired = cost[(iteration - 1) % gas.Length];
-                if (gasleft >= gasrequired)
-                    return i;
-            }
-
+           remaininggas+=gas[i]-cost[i];
+           if(remaininggas < 0) 
+           {
+            //start over from next position
+             remaininggas = 0;
+             start = i+1;
+           }
         }
-        return -1;
+        return start;
     }
 }
 
 // Tests
 
-Dictionary<int[], int[]> testcases = new()
-{
-    {new int[] {1,2,3,4,5},  new int[] {3,4,5,1,2}},
-    {new int[] {2,3,4},  new int[] {3,4,3}},
-    {new int[] {4,5,2,6,5,3},  new int[] {3,2,7,3,2,9}},
-    {new int[] {5,8,2,8},  new int[] {6,5,6,6}},
-    {new int[] {2}, new int[] {2}}
-}
-;
+List<ValueTuple<int[], int[]>> testcases = [
+    ([1,2,3,4,5],  [3,4,5,1,2]),
+    ([2,3,4], [3,4,3]),
+    ([4,5,2,6,5,3], [3,2,7,3,2,9]),
+    ([5,8,2,8], [6,5,6,6]),
+    ([2], [2]),
+];
 
 foreach (var (gas, cost) in testcases)
 {
-    Console.WriteLine($"Gas - {string.Join(", ", gas)} , costs - {string.Join(", ", gas)} : Result - {Solution.CanCompleteCircuit(gas, cost)}");
+    Console.WriteLine($"Gas - [{string.Join(",", gas)}] , costs - [{string.Join(",", cost)}] : Result = {Solution.CanCompleteCircuit(gas, cost)}");
 }
 
 
