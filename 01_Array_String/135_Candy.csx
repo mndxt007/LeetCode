@@ -40,7 +40,7 @@ public int Candy(int[] ratings)
     int totalcandies=candies[^1];
     for (int i = ratings.Length-2; i >= 0 ; i--)
     {
-        if(ratings[i] > ratings[i+1])
+        if(ratings[i] > ratings[i+1] && candies[i] <= candies [i+1])
         {
             candies[i]=candies[i+1]+1;
         }
@@ -52,6 +52,7 @@ public int Candy(int[] ratings)
 List<int[]> testcases = [
     [1,0,2],
     [1,2,2],
+    [1,3,4,5,2]
 ];
 
 foreach (var testcase in testcases)
