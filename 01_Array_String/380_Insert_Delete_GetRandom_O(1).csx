@@ -35,30 +35,54 @@ At most 2 * 105 calls will be made to insert, remove, and getRandom.
 There will be at least one element in the data structure when getRandom is called.
 */
 
-using System.Threading;
-
-public class RandomizedSet {
-
-    private readonly HashSet<int> _hashSet;
+public class RandomizedSet
+{
+    private readonly Dictionary<int, int> _map; // Stores value -> index mapping
+    private readonly List<int> _list; // Stores elements for O(1) random access
     private readonly Random _random;
 
-    public RandomizedSet() {
-        _hashSet = [];
-        _random = new();
+    public RandomizedSet()
+    {
+        _map = new Dictionary<int, int>();
+        _list = new List<int>();
+        _random = new Random();
     }
-    
-    public bool Insert(int val) {
-        return _hashSet.Add(val);
+
+    public bool Insert(int val)
+    {
+        if (_map.ContainsKey(val))
+            return false;
+
+        _map[val] = _list.Count;
+        _list.Add(val);
+        return true;
     }
-    
-    public bool Remove(int val) {
-        return _hashSet.Remove(val);
+
+    public bool Remove(int val)
+    {
+        if (!_map.ContainsKey(val))
+            return false;
+
+        int index = _map[val];
+        int lastElement = _list[^1];
+
+        // Move the last element to the removed spot
+        _list[index] = lastElement;
+        _map[lastElement] = index;
+
+        // Remove last element
+        _list.RemoveAt(_list.Count - 1);
+        _map.Remove(val);
+
+        return true;
     }
-    
-    public int GetRandom() {
-        return _hashSet.Skip(_random.Next(0,_hashSet.Count)).First();
+
+    public int GetRandom()
+    {
+        return _list[_random.Next(_list.Count)];
     }
 }
+
 
 /**
  * Your RandomizedSet object will be instantiated and called as such:
