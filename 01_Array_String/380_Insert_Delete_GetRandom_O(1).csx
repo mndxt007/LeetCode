@@ -40,32 +40,23 @@ using System.Threading;
 public class RandomizedSet {
 
     private readonly HashSet<int> _hashSet;
-    int count = 0;
+    private readonly Random _random;
 
     public RandomizedSet() {
         _hashSet = [];
+        _random = new();
     }
     
     public bool Insert(int val) {
-        if(_hashSet.Add(val))
-        {
-            count++;
-            return true;
-        }
-        return false;
+        return _hashSet.Add(val);
     }
     
     public bool Remove(int val) {
-        if(_hashSet.Remove(val))
-        {
-            count--;
-            return true;
-        }
-        return false;
+        return _hashSet.Remove(val);
     }
     
     public int GetRandom() {
-        return _hashSet.Skip(Random.Shared.Next(0,count)).First();
+        return _hashSet.Skip(_random.Next(0,_hashSet.Count)).First();
     }
 }
 
