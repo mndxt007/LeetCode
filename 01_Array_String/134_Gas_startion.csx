@@ -47,11 +47,14 @@ public static class Solution
 
      public static int CanCompleteCircuit(int[] gas, int[] cost)
     {
-        if(gas.Sum() < cost.Sum()) return -1;
         int remaininggas = 0;
         int start=0;
+        int gassum=0;
+        int costsum=0;
         for (int i = 0 ; i< gas.Length ; i++)
         {
+            gassum+=gas[i];
+            costsum+=cost[i];
            remaininggas+=gas[i]-cost[i];
            if(remaininggas < 0) 
            {
@@ -60,7 +63,7 @@ public static class Solution
              start = i+1;
            }
         }
-        return start;
+        return gassum < costsum ? -1 : start;
     }
 }
 
