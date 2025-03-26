@@ -49,11 +49,7 @@ It is guaranteed that s is a valid roman numeral in the range [1, 3999].
 public static class Solution
 {
 
-    // Ok I could have used Dictionary, Enums were overkill :)
-
-    public static int RomanToInt(string s)
-    {
-        Dictionary<char, int> dict = new()
+    static readonly Dictionary<char, int> dict = new()
         {
             { 'A', 0 },
             { 'I', 1 },
@@ -64,26 +60,20 @@ public static class Solution
             { 'D', 500 },
             { 'M', 1000 }
     };
+
+    public static int RomanToInt(string s)
+    {
+        //realizing that I dont really need dict here. int[] would also suffice in intarray['I'] is valid since 'I' is number eventually. 
         int total = 0;
         int current;
         int next;
-        for (int i = 0; i < s.Length; i++)
+        for (int i = 0; i < s.Length - 1; i++)
         {
             current = dict[s[i]];
-            if (i != s.Length - 1)
-            {
-                next = dict[s[i+1]];
-                if (current < next)
-                    total -= current;
-                else
-                    total += current;
-            }
-            else
-            {
-                total += current;
-            }
+            next = dict[s[i + 1]];
+            total = current < next ? total -= current : total += current;
         }
-        return total;
+        return total += dict[s[^1]];
     }
 
 
