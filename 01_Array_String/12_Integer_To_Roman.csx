@@ -47,36 +47,38 @@ Constraints:
 1 <= num <= 3999
 */
 
-static readonly Dictionary<int, char> dict = new()
-        {
-            { 0, 'A' },
-            { 1, 'I' },
-            { 5, 'V' },
-            { 10, 'X' },
-            { 50, 'L' },
-            { 1000, 'M' },
-            { 100, 'C' },
-            { 500, 'D' },
-    };
+static readonly List<ValueTuple<int, string>> dict =
+    [
+        (1000, "M"),
+        (900, "CM"),
+        (500, "D"),
+        (400, "CD"),
+        (100, "C"),
+        (90, "XC"),
+        (50, "L"),
+        (40, "XL"),
+        (10, "X"),
+        (9, "IX"),
+        (5, "V"),
+        (4, "IV"),
+        (1, "I")
+    ];
 
 public string IntToRoman(int num)
 {
-    if(num ==0)
+    if (num == 0)
     {
         return "A";
     }
     StringBuilder romanstring = new();
-    int factor = 0;
-    foreach (var key in dict.Keys.OrderByDescending(x => x).SkipLast(1))
-    {
-            factor = num/key;
-            for (int i = 0; i < factor; i++)
+     foreach (var (value, symbol) in dict)
+        {
+            while (num >= value)
             {
-                romanstring.Append(dict[key]);
+                romanstring.Append(symbol);
+                num -= value;
             }
-        num -= key * factor;
-
-    }
+        }
     return romanstring.ToString();
 }
 
