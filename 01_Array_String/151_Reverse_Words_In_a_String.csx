@@ -31,16 +31,11 @@ using System.Text.RegularExpressions;
 
 public string ReverseWords(string s)
 {
-    string pattern = @"(\b)";
-    var matches = Regex.Matches(s, pattern);
-    StringBuilder sb = new();
-    for(int i=matches.Count-1;i>2;i-=2)
-    {
-      sb.Append(s[(matches[i-1].Index)..matches[i].Index]);
-      sb.Append(' ');
-    }
-    sb.Append(s[(matches[0].Index)..matches[1].Index]);
-    return sb.ToString();
+    if (string.IsNullOrWhiteSpace(s)) return s;
+
+    string[] words = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+    Array.Reverse(words);
+    return string.Join(' ', words);
 }
 
 
