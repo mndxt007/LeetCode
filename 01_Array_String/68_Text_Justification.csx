@@ -57,33 +57,65 @@ words[i].length <= maxWidth
 */
 
 
-public IList<string> FullJustify(string[] words, int maxWidth)
+public static IList<string> FullJustify(string[] words, int maxWidth)
 {
-    IList<string> justfiedstr = [];
-    int currentLength = words[0].Length;
+    List<string> justifiedLines = new();
     int left = 0;
-    int right = 1;
-    int spacesneeded = 0;
-    int equalSpaces = 1;
-    while(right< words.Length)
-    {
-        currentLength+=words[right].Length;
-        spacesneeded = right-left;
-        if(currentLength+spacesneeded > maxWidth)
-        {
-            //impl
-            currentLength-=words[right].Length;
-            equalSpaces = spacesneeded > 1 ?  (maxWidth-currentLength)/(spacesneeded-1) : 1;
-            justfiedstr.Add(String.Join(new String(' ',equalSpaces),words[left..right]).PadRight(maxWidth));
-            left=right;
-            currentLength=0;
-            right--;
-        }
-        right++;
-    }
-    justfiedstr.Add(String.Join(' ',words[left..right]).PadRight(maxWidth));
 
-    return justfiedstr;
+    while (left < words.Length)
+    {
+        int right = left;
+        int lineLength = 0;
+
+        // Try to fit as many words as possible in the line
+        while (right < words.Length && lineLength + words[right].Length + (right - left) <= maxWidth)
+        {
+            lineLength += words[right].Length;
+            right++;
+        }
+
+        int wordCount = right - left;
+        int gapCount = wordCount - 1;
+        int totalSpaces = maxWidth - lineLength;
+
+        // Get the current slice of words as Span
+        ReadOnlySpan<string> lineWords = new ReadOnlySpan<string>(words, left, wordCount);
+
+        // Last line or single word: left-justify
+        if (right == words.Length || wordCount == 1)
+        {
+            var sb = new StringBuilder();
+            for (int i = 0; i < wordCount; i++)
+            {
+                sb.Append(lineWords[i]);
+                if (i < wordCount - 1)
+                    sb.Append(' ');
+            }
+            sb.Append(' ', maxWidth - sb.Length);
+            justifiedLines.Add(sb.ToString());
+        }
+        else
+        {
+            int spacePerGap = totalSpaces / gapCount;
+            int extraSpaces = totalSpaces % gapCount;
+
+            var sb = new StringBuilder();
+            for (int i = 0; i < wordCount; i++)
+            {
+                sb.Append(lineWords[i]);
+                if (i < gapCount)
+                {
+                    int spacesToInsert = spacePerGap + (i < extraSpaces ? 1 : 0);
+                    sb.Append(' ', spacesToInsert);
+                }
+            }
+            justifiedLines.Add(sb.ToString());
+        }
+
+        left = right;
+    }
+
+    return justifiedLines;
 }
 
 List<(string[],int)> testcases = [
