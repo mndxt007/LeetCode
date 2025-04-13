@@ -50,7 +50,6 @@ board[i][j] is a digit 1-9 or '.'.
 public bool IsValidSudoku(char[][] board)
 {
     HashSet<char> nonDupes = [];
-    int count = 0;
     //Check Sub-Boxes
     List<(int, int)> subBoxStarts = [(0, 0), (0, 3), (0, 6), (3, 0), (3, 3), (3, 6), (6, 0), (6, 3), (6, 6)];
     foreach (var (row, column) in subBoxStarts)
@@ -61,16 +60,16 @@ public bool IsValidSudoku(char[][] board)
             {
                 if (board[r][c] != '.')
                 {
-                    nonDupes.Add(board[r][c]);
-                    count++;
+                    if (!nonDupes.Add(board[r][c]))
+                    {
+                        return false;
+                    }
                 }
             }
         }
-        if (count > nonDupes.Count)
-            return false;
-        count = 0;
         nonDupes = [];
     }
+
     //Check Colums
     for (int c = 0; c < 9; c++)
     {
@@ -78,13 +77,12 @@ public bool IsValidSudoku(char[][] board)
         {
             if (board[r][c] != '.')
             {
-                nonDupes.Add(board[r][c]);
-                count++;
+                if (!nonDupes.Add(board[r][c]))
+                {
+                    return false;
+                }
             }
         }
-        if (count > nonDupes.Count)
-            return false;
-        count = 0;
         nonDupes = [];
     }
 
@@ -95,13 +93,12 @@ public bool IsValidSudoku(char[][] board)
         {
             if (board[r][c] != '.')
             {
-                nonDupes.Add(board[r][c]);
-                count++;
+                if (!nonDupes.Add(board[r][c]))
+                {
+                    return false;
+                }
             }
         }
-        if (count > nonDupes.Count)
-            return false;
-        count = 0;
         nonDupes = [];
     }
     return true;
