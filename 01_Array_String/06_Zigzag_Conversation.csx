@@ -41,7 +41,6 @@ public string Convert(string s, int numRows)
 {
     if(s.Length == 1 || numRows == 1) return s;
     int jump = (numRows - 1) * 2;
-    int lastrow = numRows-1;
     StringBuilder sb = new();
     for(int r=0; r < numRows ; r++)
     {
