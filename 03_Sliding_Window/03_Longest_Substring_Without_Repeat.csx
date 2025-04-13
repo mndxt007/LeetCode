@@ -29,22 +29,23 @@ public int LengthOfLongestSubstring(string s)
 {
     if(s.Length < 2) return s.Length;
     HashSet<char> charSet = [];
-    int right = 0;
-    //int left = 0;
+    int right = 1;
+    int left = 0;
     int maxLength = 0;
-    charSet.Add(s[right]);
+    charSet.Add(s[0]);
     while (right < s.Length)
     {
-        if(charSet.Contains(s[right]))
+        while(charSet.Contains(s[right]))
         {
-            maxLength=Math.Max(maxLength,charSet.Count);
-            charSet = [];
+            charSet.Remove(s[left]);
+            left++;
         }
         charSet.Add(s[right]);
+        maxLength=Math.Max(maxLength,charSet.Count);
         right++;
     }
 
-    return Math.Max(maxLength,charSet.Count);
+    return maxLength;
 
 }
 
