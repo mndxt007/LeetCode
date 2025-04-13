@@ -71,7 +71,6 @@ public bool IsValidSudoku(char[][] board)
         count = 0;
         nonDupes = [];
     }
-    
     //Check Colums
     for (int c = 0; c < 9; c++)
     {
