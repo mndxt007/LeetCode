@@ -33,17 +33,22 @@ s and t consist of any valid ascii character.
 
 public bool IsIsomorphic(string s, string t)
 {
-    Dictionary<char, char> map = [];
-    for (int i = 0; i < s.Length; i++)
+    int[] smap = new int[256];
+    int[] tmap = new int [256];
+
+    for(int i=0; i < s.Length; i++)
     {
-        if (map.TryGetValue(s[i], out var iso))
+        if(smap[s[i]] == 0 && tmap[t[i]] == 0)
         {
-            if(iso!=t[i])
-                return false;
+            smap[s[i]]=t[i];
+            tmap[t[i]]=s[i];
         }
         else
         {
-            map.Add(s[i],t[i]);
+            if(smap[s[i]] != t[i] && tmap[t[i]] != s[i])
+            {
+                return false;
+            }
         }
     }
     return true;
@@ -52,7 +57,8 @@ public bool IsIsomorphic(string s, string t)
 List<(string,string)> testcases = [
     ("egg","add"),
     ("foo","bar"),
-    ("paper","title")
+    ("paper","title"),
+    ("badc","baba")
 ];
 
 foreach(var (s,t) in testcases)
