@@ -17,11 +17,33 @@ a and b consist only of '0' or '1' characters.
 Each string does not contain leading zeros except for the zero itself.
 */
 
+using System.Numerics;
+
 public string AddBinary(string a, string b)
 {
-    var val = Convert.ToUInt64(a,2) + Convert.ToUInt64(b,2) ;
-    return val.ToString("B");
+    StringBuilder result = new();
+
+    int i = a.Length - 1;
+    int j = b.Length - 1;
+    int carry = 0;
+
+    while (i >= 0 || j >= 0 || carry > 0)
+    {
+        int bitA = (i >= 0 && a[i] == '1') ? 1 : 0;
+        int bitB = (j >= 0 && b[j] == '1') ? 1 : 0;
+
+        int sum = bitA + bitB + carry;
+        result.Insert(0, sum % 2);   // append current bit
+        carry = sum / 2;             // update carry
+
+        i--;
+        j--;
+    }
+
+    return result.ToString();
 }
+
+
 
 List<(string,string)> testcases = [
     ("11","1"),
