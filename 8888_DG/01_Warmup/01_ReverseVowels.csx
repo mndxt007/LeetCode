@@ -19,6 +19,7 @@ Constraints:
 s consist of printable ASCII characters.
 */
 
+//Two pointer should be used. Whenever there is vowel at each end, swap them.
 
 public string ReverseVowels(string s) {
     // TODO: Write your code here
