@@ -25,75 +25,26 @@ n == citations.length
 1 <= n <= 5000
 0 <= citations[i] <= 1000
 */
+using System.Globalization;
+
 public static class Solution
 {
-    public static int HIndex1(int[] citations)
+    public static int HIndex(int[] citations)
     {
-
-        //seems like a LINQ problem
-
-        // step1 sort the array and iterate through the array in the reverse order (sort reverse array to cost some CPU :))
         int len = citations.Length;
         if (len == 1)
             return citations[0] > 0 ? 1 : 0;
         Array.Sort(citations);
         int count = 0;
-        for (int i = len - 1; i >= 0; i--)
+        for (int i = len-1; i >= 0; i--) 
         {
-            //calculate count of citations >= current citation.
-            //see if the count of citations >= current citation.
-
-            //lets go LINQ (with CPU overhead :))
-            if (citations[i] != 0)
+            if(citations[i] > count)
             {
-                count = citations.Where(
-                    g => g >= citations[i]
-                ).Count();
-                if (count >= citations[i])
-                {
-                    return citations[i];
-                }
+                count++;
             }
-
         }
-
-        return count = citations.Where(
-                g => g > 0
-            ).Count();
+        return count;
     }
-
-    //logic change
-    public static int HIndex(int[] citations)
-    {
-
-
-        // step1 start from length of the arrat iterate upto 1
-        int len = citations.Length;
-        if (len == 1)
-            return citations[0] > 0 ? 1 : 0;
-        int count = 0;
-        for (int i = len; i >= 1; i--)
-        {
-            //calculate count of citations >= current citation.
-            //see if the count of citations >= current citation.
-
-            //lets go LINQ (with CPU overhead :))
-            count = citations.Count(
-                g => g >= i
-            );
-            if (count >= i)
-            {
-                return i;
-            }
-
-        }
-
-        return count = citations.Count(
-            g => g > 0
-        );
-    }
-
-
 }
 
 

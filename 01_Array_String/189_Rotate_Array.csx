@@ -34,27 +34,25 @@ Could you do it in-place with O(1) extra space?
 
 public static class Solution {
     public static void Rotate(int[] nums, int k) {
-        int maxindex = nums.Length;
-        int numrotate = k%maxindex;
-        int rotateindex = 0;
-        // attempting with extra space
-        int[] numscpy = new int[maxindex];
-        nums.CopyTo(numscpy,0);
-        for (int i=0; i< maxindex ; i++ )
-        {
-            rotateindex = (i-numrotate < 0) ? (i-numrotate+maxindex): i-numrotate;
-            nums[i]= numscpy[rotateindex];
-        }
         //without exta space;
+        if(nums.Length == 1)
+        {
+            return;
+        }
+        int numsrotate = k%nums.Length;
+        Array.Reverse(nums);
+        Array.Reverse(nums,0,numsrotate);
+        Array.Reverse(nums,numsrotate,nums.Length-numsrotate);
         Console.WriteLine($"Nums Rotated - {String.Join(' ',nums)}");
     }
 }
 
 
-Dictionary<int[],int> testcases = new(){
-{new int[] {1,2,3,4,5,6,7}, 3},
-{new int[] {-1,-100,3,99}, 2},
-};
+List<ValueTuple<int[],int>> testcases = [
+([1,2,3,4,5,6,7], 3),
+([-1,-100,3,99], 2),
+([1,2],3)
+];
 
 foreach(var (nums,k) in testcases)
 {
