@@ -25,7 +25,6 @@ n == board[i].length
 board[i][j] is 'X' or 'O'.
 */
 
-HashSet<(int, int)> NotRegion = [];
 
 void Traverse(int row, int column, char[][] board)
 {
@@ -36,9 +35,9 @@ void Traverse(int row, int column, char[][] board)
     if (row >= rowLength | column >= columnLength | row < 0 | column < 0)
         return;
 
-    if (board[row][column] == 'O' && !(NotRegion.Contains((row,column))))
+    if (board[row][column] == 'O')
     {
-        NotRegion.Add((row, column));
+        board[row][column] = 'T';
         Traverse(row+1, column, board);
         Traverse(row-1, column, board);
         Traverse(row, column-1, board);
@@ -89,17 +88,28 @@ public void Solve(ref char[][] board)
         }
     }
     #endregion
-    Console.WriteLine(
-        $"NotRegion: {String.Join(",", NotRegion)}"
-    );
+
     #region //Step2 -> Claim all regions not surronded
     for (int r = 1; r < rowLength-1; r++)
     {
         for (int c = 1; c < columnLength - 1;c++)
         {
-            if(board[r][c]=='O' && !(NotRegion.Contains((r,c))))
+            if(board[r][c]=='O')
             {
                 board[r][c] = 'X';
+            }
+        }
+    }
+    #endregion
+
+    #region //Step3 -> Replace Temp marker
+    for (int r = 0; r < rowLength; r++)
+    {
+        for (int c = 0; c < columnLength;c++)
+        {
+            if(board[r][c]=='T')
+            {
+                board[r][c] = 'O';
             }
         }
     }
