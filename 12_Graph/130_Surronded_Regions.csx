@@ -89,12 +89,15 @@ public void Solve(ref char[][] board)
         }
     }
     #endregion
+    Console.WriteLine(
+        $"NotRegion: {String.Join(",", NotRegion)}"
+    );
     #region //Step2 -> Claim all regions not surronded
     for (int r = 1; r < rowLength-1; r++)
     {
         for (int c = 1; c < columnLength - 1;c++)
         {
-            if(board[r][c]=='O' && !(NotRegion.Contains((row,column))))
+            if(board[r][c]=='O' && !(NotRegion.Contains((r,c))))
             {
                 board[r][c] = 'X';
             }
@@ -116,6 +119,11 @@ List<char[][]> testcases = [
     [
         ['O','O'],
         ['O','O']
+    ],
+    [
+        ['X','O','X'],
+        ['X','O','X'],
+        ['X','O','X']
     ]
 ];
 
