@@ -40,7 +40,8 @@ All the words in s are separated by a single space.
 public bool WordPattern(string pattern, string s)
 {
     string[] dict = new string[256];
-    
+    HashSet<string> uniquewords = new();
+
     //capture lenghts 
     var words = s.Split(" ");
     if(pattern.Length != words.Length)
@@ -49,7 +50,10 @@ public bool WordPattern(string pattern, string s)
     {
         if(String.IsNullOrEmpty(dict[pattern[i]]))
         {
+            if(uniquewords.Contains(words[i]))
+                return false;
             dict[pattern[i]] = words[i];
+            uniquewords.Add(words[i]);
             continue;
         }
         if(dict[pattern[i]] != words[i])
@@ -63,7 +67,8 @@ List<(string, string)> testcases = new List<(string, string)>
 {
     {("abba","dog cat cat dog")},
     {("abba", "dog cat cat fish")},
-    {("aaaa","dog cat cat dog")}
+    {("aaaa","dog cat cat dog")},
+    {("abba","dog dog dog dog")}
 };
 
 foreach(var (pattern,s) in testcases)
