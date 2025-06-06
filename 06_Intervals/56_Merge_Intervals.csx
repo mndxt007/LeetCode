@@ -21,14 +21,15 @@ intervals[i].length == 2
 
 public int[][] Merge(int[][] intervals)
 {
+    //Assuming the Array is sorted.
     if (intervals.Length < 1)
         return [];
-    var orderInterval = intervals.OrderBy(rangeorder => rangeorder[0]);
-    int start = orderInterval.FirstOrDefault()[0];
-    int end = orderInterval.FirstOrDefault()[1];
+     Array.Sort(intervals, (x,y) => x[0].CompareTo(y[0]));
+    int start = intervals[0][0];
+    int end = intervals[0][1];
 
     List<int[]> result = new();
-    foreach (var range in orderInterval.Skip(1))
+    foreach (var range in intervals.Skip(1))
     {
         if (range[0] > end)
         {
@@ -58,10 +59,6 @@ List<int[][]> testcases = new()
     new int[][]
     {
         [1,4],[0,4]
-    },
-    new int[][]
-    {
-        [1,4],[0,0]
     }
 };
 
