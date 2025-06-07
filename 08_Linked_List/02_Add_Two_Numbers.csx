@@ -79,37 +79,54 @@ public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
     var curl1 = l1;
     var curl2 = l2;
     var curresult = result;
-    int rem = 0;int sum= 0;int carry = 0;
-    while(curl1 is not null && curl2 is not null)
+    int rem = 0; int sum = 0; int carry = 0;
+    while (true)
     {
         sum = curl1.val + curl2.val + carry;
         rem = sum % 10;
-        curresult.val = rem;
-        curresult.next = new();
         carry = sum / 10;
-        curresult = curresult.next;
+        curresult.val = rem;
         curl1 = curl1.next;
         curl2 = curl2.next;
-    }
-    while (curl1 is not null)
-    {
-        sum = curl1.val +  carry;
-        rem = sum % 10;
-        curresult.val = rem;
+        if (curl1 == null || curl2 == null)
+            break;
         curresult.next = new();
-        carry = sum / 10;
         curresult = curresult.next;
-        curl1 = curl1.next;
     }
-     while (curl2 is not null)
+    if (curl1 is not null || curl2 is not null)
     {
-        sum = curl2.val + carry;
-        rem = sum % 10;
-        curresult.val = rem;
         curresult.next = new();
-        carry = sum / 10;
         curresult = curresult.next;
-        curl2 = curl2.next;
+        while (curl1 is not null)
+        {
+            sum = curl1.val + carry;
+            rem = sum % 10;
+            curresult.val = rem;
+            carry = sum / 10;
+            curl1 = curl1.next;
+            if (curl1 == null)
+                break;
+            curresult.next = new();
+            curresult = curresult.next;
+        }
+        while (curl2 is not null)
+        {
+            sum = curl2.val + carry;
+            rem = sum % 10;
+            curresult.val = rem;
+            carry = sum / 10;
+            curl2 = curl2.next;
+            if (curl2 == null)
+                break;
+            curresult.next = new();
+            curresult = curresult.next;
+        }
+    }
+    if (carry > 0)
+    {
+        curresult.next = new();
+        curresult = curresult.next;
+        curresult.val = carry;
     }
     return result;
 }
@@ -126,7 +143,7 @@ List<(int[], int[])> testcases = [
     )
 ];
 
-foreach (var (l1,l2) in testcases)
+foreach (var (l1, l2) in testcases)
 {
     Console.WriteLine($"L1 - {String.Join(',', l1)} | L2 - {String.Join(',', l2)}");
     var listl1 = LoadList(l1);
