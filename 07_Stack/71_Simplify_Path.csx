@@ -57,26 +57,33 @@ path is a valid absolute Unix path.
 
 public string SimplifyPath(string path)
 {
-    List<string> result = new();
-    // while + switch loop
+    Stack<string> result = new();
     var directories = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
-    for (int i = directories.Length - 1; i >= 0;)
+    for (int i = 0; i < directories.Length ; i++)
     {
         switch(directories[i])
         {
             case ".":
-                i--;
                 break;
             case "..":
-                i -= 2;
+                result.TryPop(out _);
                 break;
             default:
-                result.Insert(0, directories[i--]);
+                result.Push(directories[i]);
                 break;
         }
     }
+    StringBuilder sb = new();
+    while(result.Count > 0)
+    {
+        sb.Insert(0, result.Pop());
+        sb.Insert(0, "/");
+    }
 
-    return $"/{String.Join('/',result)}";
+    if(sb.Length == 0 )
+        sb.Append("/");
+    return sb.ToString();
+
 }
 
 List<string> testcases = new()
@@ -85,7 +92,8 @@ List<string> testcases = new()
     "/home//foo/",
     "/home/user/Documents/../Pictures",
     "/../",
-    "/.../a/../b/c/../d/./"
+    "/.../a/../b/c/../d/./",
+    "/a/./b/../../c/"
 };
 
 foreach (var testcase in testcases)
