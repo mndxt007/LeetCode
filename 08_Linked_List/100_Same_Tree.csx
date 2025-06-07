@@ -35,14 +35,6 @@ public class TreeNode
     }
 }
 
-public static void EnqueueIfNotNull(TreeNode node, Queue<TreeNode> queue)
-{
-    if (node is not null)
-    {
-        queue.Enqueue(node);
-    }
-}
-
 public bool IsSameTree(TreeNode p, TreeNode q)
 {
     Queue<TreeNode> pQueue = [];
@@ -54,12 +46,19 @@ public bool IsSameTree(TreeNode p, TreeNode q)
     {
         pNode = pQueue.Dequeue();
         qNode = qQueue.Dequeue();
-        if (pNode.val != qNode.val)
-            return false;
-        EnqueueIfNotNull(pNode.left, pQueue);
-        EnqueueIfNotNull(pNode.right, pQueue);
-        EnqueueIfNotNull(qNode.left, qQueue);
-        EnqueueIfNotNull(qNode.right, qQueue);
+        if (pNode is null && qNode is null)
+        {
+            continue;
+        }
+        else
+        {
+            if (pNode is null || qNode is null || pNode.val != qNode.val)
+                return false;
+        }
+        pQueue.Enqueue(pNode.left);
+        pQueue.Enqueue(pNode.right);
+        qQueue.Enqueue(qNode.left);
+        qQueue.Enqueue(qNode.right);
     }
     return true;
 }
