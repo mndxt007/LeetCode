@@ -22,15 +22,16 @@ Constraints:
 All the integers of nums are unique.
 */
 
-IList<IList<int>> result = [];
+IList<IList<int>> result;
 
 public IList<IList<int>> Permute(int[] nums)
 {
-    Backtrack(nums, []);
+    result = [];
+    Backtrack(nums, new List<int>(), new bool[nums.Length]);
     return result;
 }
 
-void Backtrack(int[] nums, HashSet<int> current)
+void Backtrack(int[] nums, List<int> current, bool[] used)
 {
     if (current.Count == nums.Length)
     {
@@ -40,10 +41,13 @@ void Backtrack(int[] nums, HashSet<int> current)
 
     for (int i = 0; i < nums.Length; i++)
     {
-        if (current.Contains(nums[i])) continue;
+        if (used[i]) continue;
+
+        used[i] = true;
         current.Add(nums[i]);
-        Backtrack(nums, current);
-        current.Remove(nums[i]);
+        Backtrack(nums, current, used);
+        current.RemoveAt(current.Count - 1);
+        used[i] = false;
     }
 }
 
@@ -54,9 +58,9 @@ List<int[]> testcases = new()
     new int[] {1}
 };
 
-foreach (var testcase in testcases)
-{
-    Console.WriteLine($"Testcase - {String.Join(',', testcase)}");
-    var permutations = Permute(testcase);
-    Console.WriteLine($"Permutations - {String.Join('|', permutations.Select(permute => String.Join(',', permute)))}");
-}
+    foreach (var testcase in testcases)
+    {
+        Console.WriteLine($"Testcase - {String.Join(',', testcase)}");
+        var permutations = Permute(testcase);
+        Console.WriteLine($"Permutations - {String.Join('|', permutations.Select(permute => String.Join(',', permute)))}");
+    }
