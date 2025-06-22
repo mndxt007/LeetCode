@@ -38,56 +38,60 @@ At most 104 calls will be made to addWord and search.
 
 public class Node
 {
-    public Dictionary<char,Node> Childrens {get; set;} = [];
-    public bool EndOftheWord {get; set;} = false;
+    public Dictionary<char, Node> Childrens { get; set; } = [];
+    public bool EndOftheWord { get; set; } = false;
 }
 
-public class WordDictionary {
+public class WordDictionary
+{
 
     private Node _root;
-    public WordDictionary() {
+    public WordDictionary()
+    {
         _root = new();
     }
-    
-    public void AddWord(string word) {
+
+    public void AddWord(string word)
+    {
         Node currentNode = _root;
-        for(int i = 0 ; i < word.Length; i++)
+        for (int i = 0; i < word.Length; i++)
         {
             var letter = word[i];
             if (!currentNode.Childrens.ContainsKey(letter))
             {
-                currentNode.Childrens.Add(letter,new());
+                currentNode.Childrens.Add(letter, new());
             }
             currentNode = currentNode.Childrens[letter];
         }
         currentNode.EndOftheWord = true;
     }
-    
-    public bool Search(string word, Node root=null) {
+
+    public bool Search(string word, Node root = null, int index=0)
+    {
         Node currentNode = root ?? _root;
-        for(int i = 0 ; i < word.Length; i++)
+        for (int i = index; i < word.Length; i++)
         {
             var letter = word[i];
-            if(letter == '.')
+            if (letter == '.')
             {
                 foreach (var anyLetter in currentNode.Childrens.Keys)
                 {
-                    if(Search(word.Substring(i+1),currentNode.Childrens[anyLetter]))
+                    if (Search(word, currentNode.Childrens[anyLetter],i+1))
                     {
                         return true;
                     }
                 }
-                return false; 
+                return false;
             }
             else
             {
-               if (!currentNode.Childrens.ContainsKey(letter))
-            {
-                return false;
+                if (!currentNode.Childrens.ContainsKey(letter))
+                {
+                    return false;
+                }
+                currentNode = currentNode.Childrens[letter];
             }
-            currentNode = currentNode.Childrens[letter]; 
-            }
-            
+
         }
         return currentNode.EndOftheWord;
     }
