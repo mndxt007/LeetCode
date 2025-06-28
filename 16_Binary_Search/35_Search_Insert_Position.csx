@@ -29,40 +29,28 @@ public int SearchInsert(int[] nums, int target)
 
 private int RecursiveSearchInsert(int[] nums, int target, int start, int end)
 {
-    //for cases where length is 1 or 2
-    var length = (end - start) + 1;
-    if (length == 1)
+    // Base case: when the search range is narrowed to one element
+    if (start >= end)
     {
-        if (nums[start] == target)
-        {
+        if (nums[start] >= target)
             return start;
-        }
-        else if (target > nums[start])
-        {
-            return start + 1;
-        }
         else
-        {
-            return start;
-        }
+            return start + 1;
+    }
 
+    int mid = start + (end - start) / 2;
+
+    if (nums[mid] == target)
+    {
+        return mid;
+    }
+    else if (target < nums[mid])
+    {
+        return RecursiveSearchInsert(nums, target, start, mid - 1);
     }
     else
     {
-        int mid = (end - start) / 2;
-        mid += start;
-        if (nums[mid] == target)
-        {
-            return mid;
-        }
-        else if (target > nums[mid])
-        {
-            return RecursiveSearchInsert(nums, target, mid+1, end);
-        }
-        else
-        {
-            return RecursiveSearchInsert(nums, target, start, mid);
-        }
+        return RecursiveSearchInsert(nums, target, mid + 1, end);
     }
 }
 
