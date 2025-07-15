@@ -35,7 +35,7 @@ digits does not contain any leading 0's.
 public int[] PlusOne(int[] digits)
 {
     int carry = 0;
-    //carry has to calculated before overriden
+    //carry has to be calculated before overriden
     carry = (digits[^1] + 1) / 10;
     digits[^1] = (digits[^1] + 1) % 10;
     int temp = 0;
