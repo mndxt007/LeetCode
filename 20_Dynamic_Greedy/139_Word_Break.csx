@@ -38,12 +38,13 @@ public bool WordBreak(string s, IList<string> wordDict)
     {
         foreach (var word in wordDict)
         {
-            if((i+word.Length <= sSpan.Length) && word.AsSpan().StartsWith(sSpan[i..(i+word.Length)]))
+            var wordSpan = word.AsSpan();
+            if (i + wordSpan.Length <= sSpan.Length &&
+                sSpan.Slice(i, wordSpan.Length).SequenceEqual(wordSpan))
             {
-                dp[i] = dp[i + word.Length];
+                dp[i] = dp[i + wordSpan.Length];
+                if (dp[i]) break;
             }
-            if(dp[i]==true)
-                break;
         }
     }
     return dp[0];
