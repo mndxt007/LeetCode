@@ -25,19 +25,13 @@ void MoveZeroes(int[] nums)
         return;
     }
     int l = 0;
-    int r = 1;
+    int r = 0;
     while (r < nums.Length)
     {
         if (nums[r] != 0)
         {
-            while (l < nums.Length && nums[l] != 0)
-                l++;
-            if (l < nums.Length && nums[l] == 0 && l < r)
-            {
-                nums[l] = nums[r];
-                nums[r] = 0;
-            }
-
+            (nums[l], nums[r]) = (nums[r], nums[l]);
+            l++;
         }
         r++;
     }
