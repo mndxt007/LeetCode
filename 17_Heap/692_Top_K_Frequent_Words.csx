@@ -27,34 +27,17 @@ Follow-up: Could you solve it in O(n log(k)) time and O(n) extra space?
 
 //Leave space for implementation here
 
-public record Pair
+public class WordFreqComparer : IComparer<(string word,int freq)>
 {
-    public string Word { get; set; }
-    public int Count {get; set;}
-    public Pair(string word, int count)
+    public static readonly WordFreqComparer Instance = new();
+    
+    public int Compare((string word,int freq) a, (string word,int freq) b)
     {
-        Word=word;
-        Count=count;
+        int freqCompare = b.freq.CompareTo(a.freq);
+        return freqCompare != 0 ? freqCompare : a.word.CompareTo(b.word);
     }
 }
 
-public class PairComparer : IComparer<Pair>
-{
-    int IComparer<Pair>.Compare(Pair p1, Pair p2)
-    {
-        if(p1.Count < p2.Count)
-            return 1;
-        if(p1.Count > p2.Count)
-            return -1;
-        var result = String.Compare(p1.Word,p2.Word);
-        return result switch
-        {
-            0 => 0,
-            >0 => 1,
-            <0 => -1
-        };
-    }
-}
 
  public IList<string> TopKFrequent(string[] words, int k) {
         var dict = new Dictionary<string,int>();
@@ -69,10 +52,10 @@ public class PairComparer : IComparer<Pair>
             dict.Add(words[i],1);
         }
         //Heapify
-        var pQueue = new PriorityQueue<string,Pair>(new PairComparer());
+        var pQueue = new PriorityQueue<string,(string word,int freq)>(WordFreqComparer.Instance);
         foreach (var (word,count) in dict)
         {
-            pQueue.Enqueue(word,new(word,count));
+            pQueue.Enqueue(word,(word,count));
         }
 
         //Pull K items
