@@ -25,8 +25,7 @@ board and word consists of only lowercase and uppercase English letters.
 
 
 // TODO: Implement solution
-List<(int xDelta,int yDelta)> deltas; 
-bool exist;
+List<(int xDelta, int yDelta)> deltas;
 public bool Exist(char[][] board, string word)
 {
     deltas = [
@@ -35,12 +34,23 @@ public bool Exist(char[][] board, string word)
     (1,0),
     (-1,0)
 ];
-    exist=false;
-    for(int i=0;i<board.Length;i++)
+    //pruning
+    var boardFreq = new Dictionary<char, int>();
+    foreach (var row in board)
+        foreach (var c in row)
+            boardFreq[c] = boardFreq.GetValueOrDefault(c, 0) + 1;
+
+    foreach (var c in word)
     {
-        for(int j=0;j<board[0].Length;j++)
+        if (!boardFreq.ContainsKey(c) || boardFreq[c] == 0)
+            return false;
+        boardFreq[c]--;
+    }
+    for (int i = 0; i < board.Length; i++)
+    {
+        for (int j = 0; j < board[0].Length; j++)
         {
-            if(BackTrack(0,(i,j),board,word))
+            if (BackTrack(0, (i, j), board, word))
                 return true;
         }
     }
@@ -48,28 +58,28 @@ public bool Exist(char[][] board, string word)
 
 }
 
-bool BackTrack(int currentIndex,(int x, int y) location, char[][] board, string word)
+bool BackTrack(int currentIndex, (int x, int y) location, char[][] board, string word)
 {
-    if(!IsInvalidPosition(currentIndex,(location.x,location.y),board,word) && board[location.x][location.y]==word[currentIndex])
+    if (!IsInvalidPosition(currentIndex, (location.x, location.y), board, word) && board[location.x][location.y] == word[currentIndex])
     {
-        if(currentIndex == (word.Length-1))
+        if (currentIndex == (word.Length - 1))
         {
             return true;
         }
-        board[location.x][location.y]='#';
-        foreach ((int xDelta,int yDelta) in deltas)
+        board[location.x][location.y] = '#';
+        foreach ((int xDelta, int yDelta) in deltas)
         {
-            if(BackTrack(currentIndex+1,(location.x+xDelta,location.y+yDelta),board,word))
+            if (BackTrack(currentIndex + 1, (location.x + xDelta, location.y + yDelta), board, word))
             {
                 return true;
             }
         }
-        board[location.x][location.y]=word[currentIndex];
+        board[location.x][location.y] = word[currentIndex];
     }
     return false;
 }
 
-bool IsInvalidPosition(int currentIndex,(int x, int y) location, char[][] board, string word)
+bool IsInvalidPosition(int currentIndex, (int x, int y) location, char[][] board, string word)
 {
     return location.x < 0 || location.x >= board.Length || location.y < 0 || location.y >= board[0].Length || currentIndex >= word.Length;
 }
