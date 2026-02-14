@@ -25,55 +25,54 @@ board and word consists of only lowercase and uppercase English letters.
 
 
 // TODO: Implement solution
-IEnumerable<(int xDelta,int yDelta)> deltas= [
+List<(int xDelta,int yDelta)> deltas; 
+bool exist;
+public bool Exist(char[][] board, string word)
+{
+    deltas = [
     (0,1),
     (0,-1),
     (1,0),
     (-1,0)
 ];
-bool exist;
-public bool Exist(char[][] board, string word)
-{
     exist=false;
-    bool[,] visited = new bool[board.Length,board[0].Length];
     for(int i=0;i<board.Length;i++)
     {
         for(int j=0;j<board[0].Length;j++)
         {
-            if(exist)
+            if(BackTrack(0,(i,j),board,word))
                 return true;
-            BackTrack(0,(i,j),board,word,visited);
         }
     }
-    return exist;
+    return false;
 
 }
 
-void BackTrack(int currentIndex,(int x, int y) location, char[][] board, string word,bool[,] visited)
+bool BackTrack(int currentIndex,(int x, int y) location, char[][] board, string word)
 {
-    if(!IsInvalidPosition(currentIndex,(location.x,location.y),board,word) && !visited[location.x,location.y] && board[location.x][location.y]==word[currentIndex])
+    if(!IsInvalidPosition(currentIndex,(location.x,location.y),board,word) && board[location.x][location.y]==word[currentIndex])
     {
         if(currentIndex == (word.Length-1))
         {
-            exist=true;
-            return;
+            return true;
         }
-        visited[location.x,location.y]=true;
+        board[location.x][location.y]='#';
         foreach ((int xDelta,int yDelta) in deltas)
         {
-            if(exist)
-                return;
-                BackTrack(currentIndex+1,(location.x+xDelta,location.y+yDelta),board,word,visited);
+            if(BackTrack(currentIndex+1,(location.x+xDelta,location.y+yDelta),board,word))
+            {
+                return true;
+            }
         }
-        visited[location.x,location.y]=false;
+        board[location.x][location.y]=word[currentIndex];
     }
+    return false;
 }
 
 bool IsInvalidPosition(int currentIndex,(int x, int y) location, char[][] board, string word)
 {
     return location.x < 0 || location.x >= board.Length || location.y < 0 || location.y >= board[0].Length || currentIndex >= word.Length;
 }
-
 
 List<(char[][] board, string word)> testcases = [
     ([
