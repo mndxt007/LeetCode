@@ -12,10 +12,11 @@ X12
 12
 ===
 144
-*/
+
 
 024
 144
+*/
 
 public ListNode Multiply(ListNode n1, ListNode n2)
 {
@@ -37,10 +38,11 @@ public ListNode Multiply(ListNode n1, ListNode n2)
 
     for (int i = 0; i < n2List.Count; i++)
     {
-        result[0] =  
+        //result[0] =  
     }
 
-
+    //todo
+    return new ListNode();
 
 
 }

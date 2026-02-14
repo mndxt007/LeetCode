@@ -26,12 +26,37 @@ IList<IList<int>> result;
 
 public IList<IList<int>> Permute(int[] nums)
 {
-    result = [];
-    Backtrack(nums, new List<int>(), new bool[nums.Length]);
+    return Backtrack(nums);
+}
+
+IList<IList<int>> Backtrack(Span<int> nums)
+{
+    if(nums.Length==0)
+        return [[]];
+    
+    var perms = Backtrack(nums[1..]);
+    IList<IList<int>> result = [];
+    foreach(var permutation in perms)
+    {
+        for(int i=0; i<=permutation.Count;i++)
+        {
+            var copy = new List<int>(permutation);
+            copy.Insert(i,nums[0]);
+            result.Add(copy);
+        }
+        
+    }
     return result;
 }
 
-void Backtrack(int[] nums, List<int> current, bool[] used)
+public IList<IList<int>> Permute1(int[] nums)
+{
+    result = [];
+    Backtrack1(nums, new List<int>(), new bool[nums.Length]);
+    return result;
+}
+
+void Backtrack1(int[] nums, List<int> current, bool[] used)
 {
     if (current.Count == nums.Length)
     {
@@ -45,7 +70,7 @@ void Backtrack(int[] nums, List<int> current, bool[] used)
 
         used[i] = true;
         current.Add(nums[i]);
-        Backtrack(nums, current, used);
+        Backtrack1(nums, current, used);
         current.RemoveAt(current.Count - 1);
         used[i] = false;
     }
@@ -61,6 +86,7 @@ List<int[]> testcases = new()
     foreach (var testcase in testcases)
     {
         Console.WriteLine($"Testcase - {String.Join(',', testcase)}");
+        //var permutations = Permute1(testcase);
         var permutations = Permute(testcase);
         Console.WriteLine($"Permutations - {String.Join('|', permutations.Select(permute => String.Join(',', permute)))}");
     }
