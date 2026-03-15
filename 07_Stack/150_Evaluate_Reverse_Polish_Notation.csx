@@ -40,30 +40,18 @@ tokens[i] is either an operator: "+", "-", "*", or "/", or an integer in the ran
 // TODO: Implement solution
 public int EvalRPN(string[] tokens)
 {
+    Dictionary<char,Func<int, int, int>> evalFuncs = new() {
+        {'+', (a,b) => a + b},
+        {'-', (a,b) => b - a},
+        {'*', (a,b) => a * b},
+        {'/', (a,b) => b / a}
+    };
     Stack<int> evalStack = new();
     foreach (var operand in tokens)
     {
-        if(operand.Length ==1 && !Char.IsAsciiDigit(operand[0]))
+        if(operand.Length ==1 && evalFuncs.ContainsKey(operand[0]))
         {
-            int operator2 = evalStack.Pop();
-            int operator1 = evalStack.Pop();
-            //possible the stack in empty. 
-
-            switch(operand[0])
-            {
-                case '+':
-                    evalStack.Push(operator1+operator2);
-                    break;
-                case '-':
-                    evalStack.Push(operator1-operator2);
-                    break;
-                case '*':
-                    evalStack.Push(operator1*operator2);
-                    break;
-                case '/':
-                    evalStack.Push(operator1/operator2);
-                    break;
-            }
+            evalStack.Push(evalFuncs[operand[0]](evalStack.Pop(),evalStack.Pop()));
             continue;
         }
         evalStack.Push(Convert.ToInt32(operand));
