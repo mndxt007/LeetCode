@@ -1,6 +1,6 @@
 # Boilerplate Code Examples
 
-These examples show the exact output format for different problem types.
+These examples show the exact output format for different problem types using .NET file-based apps.
 
 ## Example 1: Simple array/int parameters (Two Sum)
 
@@ -33,13 +33,11 @@ Only one valid answer exists.
 Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity?
 */
 
-
 // TODO: Implement solution
-public int[] TwoSum(int[] nums, int target)
+int[] TwoSum(int[] nums, int target)
 {
     throw new NotImplementedException();
 }
-
 
 List<(int[] nums, int target)> testcases = [
     ([2,7,11,15], 9),
@@ -86,13 +84,11 @@ s and wordDict[i] consist of only lowercase English letters.
 All the strings of wordDict are unique.
 */
 
-
 // TODO: Implement solution
-public bool WordBreak(string s, IList<string> wordDict)
+bool WordBreak(string s, IList<string> wordDict)
 {
     throw new NotImplementedException();
 }
-
 
 List<(string s, string[] wordDict)> testcases = [
     ("leetcode",["leet","code"]),
@@ -141,13 +137,11 @@ n == grid[i].length
 grid[i][j] is '0' or '1'.
 */
 
-
 // TODO: Implement solution
-public int NumIslands(char[][] grid)
+int NumIslands(char[][] grid)
 {
     throw new NotImplementedException();
 }
-
 
 List<char[][]> testcases = [
     [
@@ -173,7 +167,7 @@ foreach (var testcase in testcases)
 
 ## Example 4: Linked List problem (Add Two Numbers)
 
-When the problem uses ListNode, TreeNode, or other custom data structures, include the class definition and helper methods.
+When the problem uses ListNode, TreeNode, or other custom data structures, include the class definition AFTER all top-level statements.
 
 ```csharp
 /*
@@ -181,18 +175,13 @@ You are given two non-empty linked lists representing two non-negative integers.
 [problem description]
 */
 
-public class ListNode
+// TODO: Implement solution
+ListNode AddTwoNumbers(ListNode l1, ListNode l2)
 {
-    public int val;
-    public ListNode next;
-    public ListNode(int val = 0, ListNode next = null)
-    {
-        this.next = next;
-        this.val = val;
-    }
+    throw new NotImplementedException();
 }
 
-public static ListNode LoadList(int[] values)
+ListNode LoadList(int[] values)
 {
     if (values == null || values.Length == 0)
         return null;
@@ -206,7 +195,7 @@ public static ListNode LoadList(int[] values)
     return head;
 }
 
-public static void PrintList(ListNode head)
+void PrintList(ListNode head)
 {
     ListNode current = head;
     while (current != null)
@@ -217,14 +206,6 @@ public static void PrintList(ListNode head)
     }
     Console.WriteLine();
 }
-
-
-// TODO: Implement solution
-public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
-{
-    throw new NotImplementedException();
-}
-
 
 List<(int[], int[])> testcases = [
     ([2,4,3], [5,6,4]),
@@ -241,6 +222,18 @@ foreach (var (l1, l2) in testcases)
     var result = AddTwoNumbers(listl1, listl2);
     PrintList(result);
 }
+
+// Class definitions MUST come after all top-level statements
+public class ListNode
+{
+    public int val;
+    public ListNode next;
+    public ListNode(int val = 0, ListNode next = null)
+    {
+        this.next = next;
+        this.val = val;
+    }
+}
 ```
 
 ## Example 5: Binary Tree problem (Max Depth)
@@ -251,6 +244,13 @@ Given the root of a binary tree, return its maximum depth...
 [problem description]
 */
 
+// TODO: Implement solution
+int MaxDepth(TreeNode root)
+{
+    throw new NotImplementedException();
+}
+
+// Class definitions MUST come after all top-level statements
 public class TreeNode
 {
     public int val;
@@ -263,17 +263,13 @@ public class TreeNode
         this.right = right;
     }
 }
-
-
-// TODO: Implement solution
-public int MaxDepth(TreeNode root)
-{
-    throw new NotImplementedException();
-}
 ```
 
 ## Key Patterns
 
+- Files run as .NET file-based apps via `dotnet run file.cs`
+- **No access modifiers** on top-level methods (no `public`, `private`, etc.)
+- **Classes go at the bottom** — all top-level statements (method defs, test code) must precede type declarations
 - Test case tuples use C# 12 collection expressions: `[...]`
 - Print format: `Console.WriteLine($"Testcase: param1-{val1} param2-{val2}")`
 - Result format: `Console.WriteLine($"MethodName - {MethodName(args)}")`
