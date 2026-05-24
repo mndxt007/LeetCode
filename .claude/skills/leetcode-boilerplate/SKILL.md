@@ -1,17 +1,17 @@
 ---
 name: leetcode-boilerplate
-description: Create boilerplate C# script (.csx) files for LeetCode problems. Use when the user provides a LeetCode problem URL, problem number, or pastes a problem description and wants a scaffolded .csx file with the problem description as a comment, method stub, test cases, and test runner. Does NOT solve the problem. The file is placed in the correct category folder with proper naming convention.
+description: Create boilerplate C# file-based app (.cs) files for LeetCode problems. Use when the user provides a LeetCode problem URL, problem number, or pastes a problem description and wants a scaffolded .cs file with the problem description as a comment, method stub, test cases, and test runner. Does NOT solve the problem. The file is placed in the correct category folder with proper naming convention.
 ---
 
 # LeetCode Boilerplate Generator
 
-Generate scaffolded .csx files for LeetCode problems in the repository at `D:\DS\Code`.
+Generate scaffolded .cs file-based apps for LeetCode problems in the repository at `D:\DS\Code`.
 
 ## Workflow
 
 1. **Get problem details** from the user input (URL, pasted description, or problem number)
 2. **Determine file placement** (category folder + file name)
-3. **Generate the .csx boilerplate** file
+3. **Generate the .cs boilerplate** file
 4. **Confirm** the created file path
 
 ## Step 1: Get Problem Details
@@ -28,29 +28,29 @@ Read [references/categories.md](references/categories.md) for the full folder ma
 
 **Ask the user** which category folder to place the file in. Present choices from the category list. If the problem clearly maps to one category, suggest it as the recommended choice.
 
-**File name format**: `{LeetCodeNumber}_{Problem_Name_With_Underscores}.csx`
+**File name format**: `{LeetCodeNumber}_{Problem_Name_With_Underscores}.cs`
 
 Before creating, check if the file already exists using `glob`. If it does, inform the user and ask how to proceed.
 
-## Step 3: Generate the .csx Boilerplate
+## Step 3: Generate the .cs Boilerplate
 
 Read [references/examples.md](references/examples.md) for complete code examples showing the exact output format for different problem types.
 
-### Output Structure
+### Output Structure (file-based app format)
 
 ```
 /*
 {Problem description as-is with proper newline formatting}
 */
 
-
 // TODO: Implement solution
 {Method stub with throw new NotImplementedException()}
-
 
 {Test case list definition}
 
 {foreach loop running each test case and printing results}
+
+{Any class definitions (ListNode, TreeNode, etc.) go AFTER top-level statements}
 ```
 
 ### Critical Rules
@@ -63,13 +63,23 @@ Read [references/examples.md](references/examples.md) for complete code examples
 - Use value tuples for multi-parameter test cases
 - Print format: `Console.WriteLine($"Testcase: param-{val}")` then `Console.WriteLine($"MethodName - {result}")`
 - For array output use `String.Join(',', array)`, wrapping in `[{...}]`
-- For problems requiring custom data structures (ListNode, TreeNode, etc.), include the class definition and helper methods (LoadList, PrintList, etc.) between the comment block and the method stub
+- For problems requiring custom data structures (ListNode, TreeNode, etc.), include the class definition AFTER all top-level statements (required by file-based apps)
+
+### File-Based App Rules
+
+These files run with `dotnet run file.cs` (no project file needed). Key constraints:
+- **No access modifiers on top-level methods** — use `int[] TwoSum(...)` not `public int[] TwoSum(...)`
+- **Classes/structs/records must come AFTER all top-level statements** (method definitions, test code, foreach loops)
+- **No `static` modifier on top-level methods** unless truly needed
+- **Helper methods** (LoadList, PrintList) are local functions — no access modifiers
+- **Class definitions** (ListNode, TreeNode, custom types) keep their `public` modifier but must be placed at the bottom of the file
+- **Add `#:package` directives** at the top if NuGet packages are needed (e.g., `#:package Dumpify@0.6.6`)
 
 ### Method Signature
 
-Use the exact method signature from LeetCode. Common patterns:
-- `public int[] TwoSum(int[] nums, int target)`
-- `public bool WordBreak(string s, IList<string> wordDict)`
-- `public IList<IList<int>> Permute(int[] nums)`
+Use the method signature from LeetCode but **without access modifiers** (no `public`):
+- `int[] TwoSum(int[] nums, int target)`
+- `bool WordBreak(string s, IList<string> wordDict)`
+- `IList<IList<int>> Permute(int[] nums)`
 
 For `IList<T>` parameters, use concrete arrays/lists in test case data.

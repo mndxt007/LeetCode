@@ -29,18 +29,18 @@ These are the existing category folders in the repository root (D:\DS\Code):
 
 ## File Naming Convention
 
-Format: `{LeetCodeNumber}_{Problem_Name_With_Underscores}.csx`
+Format: `{LeetCodeNumber}_{Problem_Name_With_Underscores}.cs`
 
 Examples:
-- `139_Word_Break.csx`
-- `46_Permutations.csx`
-- `1_Two_Sum.csx`
-- `200_Number_of_Islands.csx`
-- `347_Top_K_Elements.csx`
+- `139_Word_Break.cs`
+- `46_Permutations.cs`
+- `1_Two_Sum.cs`
+- `200_Number_of_Islands.cs`
+- `347_Top_K_Elements.cs`
 
 Rules:
 - Use the LeetCode problem number as prefix
 - Use underscores for spaces in the problem name
 - Use PascalCase-ish words (capitalize first letter of each word)
 - Keep the name concise but recognizable
-- File extension is always `.csx`
+- File extension is always `.cs`
