@@ -62,40 +62,79 @@ s consists of digits, spaces, and the symbols '(', ')', '-', and '+'.
 */
 
 // TODO: Implement solution
-using System.Text.RegularExpressions;
-Regex EmailPattern = MyRegex();
-Regex PhonePattern = new(@"[^\d]", RegexOptions.Compiled);
+
+
+using System.Globalization;
+using System.Text;
+
 const string mask5 = "*****";
-const string mask3 = "***";
+const string mask3 = "***-";
 
 string MaskPII(string s)
 {
-    if (!Char.IsAsciiDigit(s[0]))
+    if (Char.IsAsciiLetter(s[0]))
     {
-        var emailMatch = EmailPattern.Match(s);
-        if (emailMatch.Success)
+        return MaskEmail(s.AsSpan());
+    }
+    return MaskPhoneNumber(s); 
+}
+
+string MaskEmail(ReadOnlySpan<char> chars)
+{
+    var name = chars[..chars.IndexOf('@')];
+    var domain = chars[name.Length..];
+    var sb = new StringBuilder();
+    sb.Append(Char.ToLower(name[0]));
+    sb.Append(mask5);
+    sb.Append(Char.ToLower(name[^1]));
+    foreach (var letter in domain)
+    {
+        sb.Append(Char.ToLower(letter));
+    }
+
+    return sb.ToString();
+}
+
+string MaskPhoneNumber(string chars)
+{
+    StringBuilder sb = new();
+    int digitCount = 0;
+    for(int i=chars.Length-1; i >= 0 ; i--)
+    {
+        switch(chars[i])
         {
-            var name = emailMatch.Groups[1].Value;
-            var domain = emailMatch.Groups[2].Value;
-            return $"{Char.ToLower(name[0])}" + mask5 + $"{Char.ToLower(name[^1])}" + '@' + domain.ToLower();
+            case '+':
+            case '-':
+            case '(':
+            case ')':
+            case ' ':
+                break;
+            default:
+                digitCount++;
+                if(digitCount<5)
+                    sb.Insert(0,chars[i]);
+                break;
         }
     }
-    var phoneNumber = PhonePattern.Replace(s, "");
-    var phoneMasked = mask3 + '-' + mask3 + '-' + phoneNumber[^4..];
-    string CountrynPhoneMasked = phoneNumber.Length switch
+    sb.Insert(0,mask3,2);
+    string mask = digitCount switch
     {
-        11 => "+*-" + phoneMasked,
-        12 => "+**-" + phoneMasked,
-        13 => "+***-" + phoneMasked,
-        _ => phoneMasked
+        11 => "+*-",
+        12 => "+**-",
+        13 => "+***-",
+        _ => String.Empty
     };
-    return CountrynPhoneMasked;
+    if(!String.IsNullOrEmpty(mask))
+    {
+        sb.Insert(0,mask);
+    }
+    return sb.ToString();
 }
 
 List<string> testcases = [
-    // "LeetCode@LeetCode.com",
-    // "AB@qq.com",
-    // "1(234)567-890",
+    "LeetCode@LeetCode.com",
+    "AB@qq.com",
+    "1(234)567-890",
     "86-(10)12345678"
 ];
 
@@ -105,12 +144,5 @@ foreach (var s in testcases)
     Console.WriteLine($"MaskPII - {MaskPII(s)}");
 }
 
-//doesn't work in leetcode
-static partial class Patterns
-{
-    [GeneratedRegex(@"([A-Za-z]+)@([A-Za-z]+\.[A-Za-z]{2,5})")]
-    public static partial Regex EmailPattern();
-    [GeneratedRegex(@"[^\d]")]
-    public static partial Regex PhonePattern();
-}
+
 
