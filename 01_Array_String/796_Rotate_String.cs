@@ -21,30 +21,15 @@ s and goal consist of lowercase English letters.
 // TODO: Implement solution
 bool RotateString(string s, string goal)
 {
-    if(string.Equals(s,goal,StringComparison.Ordinal))
-    {
-        return true;
-    }
-    var goalSpan = goal.AsSpan();
-    var stringSpan = s.AsSpan();
-    for(int i=1; i < s.Length; i++)
-    {
-        bool foundLeft = stringSpan.IndexOf(goalSpan[..i]) > -1;
-        bool foundRight = stringSpan.IndexOf(goalSpan[i..]) > -1;
-        if(foundLeft && foundRight)
-            return true;
-    }
-
-    return false;
+    return s.Length == goal.Length && (goal + goal).Contains(s, StringComparison.Ordinal);
 
 }
 
 
-
 List<(string s, string goal)> testcases = [
-    // ("abcde", "cdeab"),
-    // ("abcde", "abced"),
-    // ("w", "w"),
+    ("abcde", "cdeab"),
+    ("abcde", "abced"),
+    ("w", "w"),
     ("yn","xi")
 ];
 
